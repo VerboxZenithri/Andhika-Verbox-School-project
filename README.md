@@ -1,2 +1,2 @@
 # Andhika-Verbox-School-project
-coding, program, projek, dan sejenisnya milik Andhika S.A. X RPL 2
+coding, program, project, dan sejenisnya milik Andhika S.A. X RPL 2
