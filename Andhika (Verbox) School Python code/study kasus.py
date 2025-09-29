@@ -1,6 +1,6 @@
 inventaris = [
-    {"nama": "Laptop", "stok": 5, "harga": 7500000},
-    {"nama": "Mouse", "stok": 20, "harga": 150000},
+    {"nama":"Laptop", "stok":5, "harga":7500000},
+    {"nama":"Mouse", "stok":20, "harga":150000},
 ]
 
 def tampilkan_produk():
