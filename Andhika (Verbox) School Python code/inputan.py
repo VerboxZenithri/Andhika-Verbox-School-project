@@ -4,10 +4,10 @@ import os
 stock = [
     {"nama": "Barreta", "stok": 120, "harga": 935000},
     {"nama": "AK-47", "stok": 55, "harga": 4500000},
-    {"nama": "BMG-50", "stok": 12, "harga": 97000000},
+    {"nama": "BMG-50", "stok": 12, "harga": 97500000},
     {"nama": "Glock", "stok": 352, "harga": 480000},
     {"nama": "Illegal M4", "stok": 5, "harga": 12000000},
-    {"nama": "RPG-7", "stok": 5, "harga": 79950000},
+    {"nama": "RPG-7", "stok": 5, "harga": 129950000},
     {"nama": "HE Granade", "stok": 43, "harga": 2000000},
     {"nama": "Desert Eagle", "stok": 8, "harga": 15000000},
     {"nama": "Uzi", "stok": 60, "harga": 2500000},
@@ -24,7 +24,7 @@ stock = [
     {"nama": "Tactical Helmet", "stok": 40, "harga": 650000},
     {"nama": "Night Vision Goggles", "stok": 7, "harga": 35000000},
     {"nama": "Tactical Shield", "stok": 5, "harga": 5000000},
-    {"nama": "EMP Device", "stok": 2, "harga": 85000000},
+    {"nama": "EMP Device", "stok": 2, "harga": 85500000},
     {"nama": "Signal Jammer", "stok": 8, "harga": 22000000},
     {"nama": "Hacking Laptop", "stok": 15, "harga": 12500000},
     {"nama": "Spy Drone", "stok": 9, "harga": 9500000},
@@ -44,10 +44,10 @@ def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
 def tampilkan_stok():
-    print("\n=== Stok Barang ===")
+    print("=== Stok Barang ===\n")
     for i, produk in enumerate(stock, start=1):
         print(f"{i}. {produk['nama']} - Stok: {produk['stok']} - Harga: {produk['harga']}")
-    print(f"\n$ Saldo Anda: {saldo}")
+    print(f"\nSaldo Anda : ${saldo}")
 
 def beli_barang():
     global saldo
@@ -68,6 +68,7 @@ def beli_barang():
             produk['stok'] -= jumlah
             saldo -= total
             print(f"\nAnda membeli {jumlah} {produk['nama']} seharga {total}")
+            print(f"\nSisa Saldo Anda : ${saldo}")
         else:
             print("\n[X] Saldo tidak cukup (-.-)!")
     else:
@@ -91,11 +92,12 @@ def jual_barang():
     total = jumlah * (produk['harga'] // 2)
     saldo += total
     print(f"\n$ Anda menjual {jumlah} {produk['nama']} dan mendapat {total}")
+    print(f"\nTotal Saldo Anda : ${saldo}")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
 def lihat_organisasi():
     clear()
-    print("\n=== Daftar Organisasi Underground ===")
+    print("=== Daftar Organisasi Underground ===\n")
     for i, org in enumerate(organisasi, start=1):
         print(f"{i}. {org}")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
@@ -107,7 +109,7 @@ def menu():
         print("1. Beli barang")
         print("2. Jual barang")
         print("3. Lihat stock barang")
-        print("4. Lihat daftar organisasi 'Underground'")
+        print("4. Lihat daftar organisasi 'Underground' yang berkontribusi di Black Market")
         print("5. Keluar")
 
         pilihan = input("anda mau kemana? (1/2/3/4/5) pilihan di tangan anda... 🚬(-.-) :")
