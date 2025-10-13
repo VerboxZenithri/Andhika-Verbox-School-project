@@ -1,74 +1,76 @@
 import os
+import json
+from datetime import datetime
 
-# Data awal stock
-stock = [
-    {"nama": "Barreta", "stok": 120, "harga": 935000},
-    {"nama": "AK-47", "stok": 55, "harga": 4500000},
-    {"nama": "BMG-50", "stok": 12, "harga": 97500000},
-    {"nama": "Glock", "stok": 352, "harga": 480000},
-    {"nama": "Illegal M4", "stok": 5, "harga": 12000000},
-    {"nama": "RPG-7", "stok": 5, "harga": 129950000},
-    {"nama": "HE Granade", "stok": 43, "harga": 2000000},
-    {"nama": "Desert Eagle", "stok": 8, "harga": 15000000},
-    {"nama": "Uzi", "stok": 60, "harga": 2500000},
-    {"nama": "FN SCAR", "stok": 10, "harga": 12000000},
-    {"nama": "M16A4", "stok": 22, "harga": 7000000},
-    {"nama": "Dragunov SVD", "stok": 4, "harga": 22000000},
-    {"nama": "MP5", "stok": 30, "harga": 3000000},
-    {"nama": "C4 Explosive", "stok": 6, "harga": 45000000},
-    {"nama": "Molotov", "stok": 200, "harga": 150000},
-    {"nama": "Claymore Mine", "stok": 12, "harga": 18000000},
-    {"nama": "Smoke Grenade", "stok": 120, "harga": 125000},
-    {"nama": "Flashbang", "stok": 90, "harga": 250000},
-    {"nama": "Kevlar Vest", "stok": 45, "harga": 900000},
-    {"nama": "Tactical Helmet", "stok": 40, "harga": 650000},
-    {"nama": "Night Vision Goggles", "stok": 7, "harga": 35000000},
-    {"nama": "Tactical Shield", "stok": 5, "harga": 5000000},
-    {"nama": "EMP Device", "stok": 2, "harga": 85500000},
-    {"nama": "Signal Jammer", "stok": 8, "harga": 22000000},
-    {"nama": "Hacking Laptop", "stok": 15, "harga": 12500000},
-    {"nama": "Spy Drone", "stok": 9, "harga": 9500000},
-    {"nama": "Silencer (Universal)", "stok": 50, "harga": 650000},
-    {"nama": "Tactical Boots", "stok": 75, "harga": 250000},
-    {"nama": "Survival Kit", "stok": 120, "harga": 175000},
-    {"nama": "Combat Knife", "stok": 140, "harga": 120000},
-    {"nama": "Tracking Beacon", "stok": 20, "harga": 4500000},
-]
-
-organisasi = ["Shadow Clan","Black Lotus","Ghost Syndicate","Slum Snake","NetBurners","D.E.V. Clan","The Convenant","The Dark Army","NWO","BitRunners","NiteSec"]
-
-saldo = 195250000  # saldo User
 
 # Fungsi clear screen
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
+# Data stock dan organisasi di Json
+def load_json(filename, default_value):
+    if not os.path.exists(filename):
+        with open(filename, "w") as f:
+            json.dump(default_value, f, indent=4)
+        return default_value
+    with open(filename, "r") as f:
+        return json.load(f)
+
+def save_json(filename, data):
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
+
+stock = load_json("data barang black market.json", []) #stock barang
+organisasi = load_json("daftar organisasi.json", []) #daftar organisasi
+saldo_data = load_json("uang.json",{}) #saldo user
+saldo = saldo_data["saldo"]
+
 def tampilkan_stok():
     print("=== Stok Barang ===\n")
     for i, produk in enumerate(stock, start=1):
-        print(f"{i}. {produk['nama']} - Stok: {produk['stok']} - Harga: {produk['harga']}")
-    print(f"\nSaldo Anda : ${saldo}")
+        print(f"{i}. {produk['nama']} - Stok: {produk['stok']} - Harga: ${produk['harga']}")
+    print(f"\nSaldo Anda : ${saldo:,}")
+
+def save_stock_and_saldo():
+    save_json("data barang black market.json", stock)
+    save_json("uang.json", {"saldo": saldo})
+
+def riwayat_transaksi(tipe, nama_barang, jumlah, total):
+    waktu = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open("transaksi_log.txt", "a", encoding="utf-8") as log:
+        log.write(f"[{waktu}] {tipe} {jumlah}x {nama_barang} - Total: ${total:,}\n")
+
 
 def beli_barang():
     global saldo
     clear()
     tampilkan_stok()
-    pilihan = int(input("\nPilih nomor barang yang ingin dibeli: "))
-    if pilihan < 1 or pilihan > len(stock):
+    try:
+        pilihan = int(input("\nPilih nomor barang yang ingin dibeli: "))
+        if pilihan < 1 or pilihan > len(stock):
+            raise ValueError
+    except ValueError:
         print("[X] Pilihan tidak valid (-.-)!")
         input("\nTekan Enter untuk lanjut... (-_-)")
         return
 
     produk = stock[pilihan - 1]
-    jumlah = int(input(f"Masukkan jumlah {produk['nama']} yang ingin dibeli: "))
+    try:
+        jumlah = int(input(f"Masukkan jumlah {produk['nama']} yang ingin dibeli: "))
+    except ValueError:
+        print("\n[X] Input jumlah tidak valid (-.-)!")
+        input("\nTekan Enter untuk lanjut... (-_-)")
+        return
 
     total = jumlah * produk['harga']
     if jumlah <= produk['stok']:
         if saldo >= total:
             produk['stok'] -= jumlah
             saldo -= total
-            print(f"\nAnda membeli {jumlah} {produk['nama']} seharga {total}")
-            print(f"\nSisa Saldo Anda : ${saldo}")
+            save_stock_and_saldo()
+            riwayat_transaksi("beli", produk['nama'], jumlah, total)
+            print(f"\nAnda membeli {jumlah} {produk['nama']} seharga ${total:,}")
+            print(f"Sisa saldo Anda: ${saldo:,}")
         else:
             print("\n[X] Saldo tidak cukup (-.-)!")
     else:
@@ -79,20 +81,30 @@ def jual_barang():
     global saldo
     clear()
     tampilkan_stok()
-    pilihan = int(input("\nPilih nomor barang yang ingin dijual: "))
-    if pilihan < 1 or pilihan > len(stock):
+    try:
+        pilihan = int(input("\nPilih nomor barang yang ingin dijual: "))
+        if pilihan < 1 or pilihan > len(stock):
+            raise ValueError
+    except ValueError:
         print("[X] Pilihan tidak valid (-.-)!")
-        input("\nTekan Enter untuk lanjut... (-.-)")
+        input("\nTekan Enter untuk lanjut... (-_-)")
         return
 
     produk = stock[pilihan - 1]
-    jumlah = int(input(f"Masukkan jumlah {produk['nama']} yang ingin dijual: "))
+    try:
+        jumlah = int(input(f"Masukkan jumlah {produk['nama']} yang ingin dijual: "))
+    except ValueError:
+        print("\n[X] Input jumlah tidak valid (-.-)!")
+        input("\nTekan Enter untuk lanjut... (-_-)")
+        return
 
     produk['stok'] += jumlah
     total = jumlah * (produk['harga'] // 2)
     saldo += total
-    print(f"\n$ Anda menjual {jumlah} {produk['nama']} dan mendapat {total}")
-    print(f"\nTotal Saldo Anda : ${saldo}")
+    save_stock_and_saldo()
+    riwayat_transaksi("jual", produk['nama'], jumlah, total)
+    print(f"\nAnda menjual {jumlah} {produk['nama']} dan mendapat ${total:,}")
+    print(f"Saldo Anda sekarang: ${saldo:,}")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
 def lihat_organisasi():
@@ -102,17 +114,58 @@ def lihat_organisasi():
         print(f"{i}. {org}")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
+def baca_log():
+    if not os.path.exists("transaksi_log.txt"):
+        return []
+    with open("transaksi_log.txt", "r", encoding="utf-8") as f:
+        return f.readlines()
+
+def lihat_log():
+    clear()
+    print("=== Riwayat Transaksi ===")
+    print("1. Lihat semua transaksi")
+    print("2. Filter berdasarkan jenis transaksi (BELI / JUAL)")
+    print("3. Filter berdasarkan tanggal (YYYY-MM-DD)")
+    print("4. Kembali")
+
+    pilihan = input("\nPilih opsi (1/2/3/4) 📃(-.-): ")
+    logs = baca_log()
+
+    if pilihan == "1":
+        clear()
+        print("=== Semua Transaksi ===\n")
+        print("".join(logs) if logs else "Belum ada transaksi tercatat.")
+    elif pilihan == "2":
+        jenis = input("Masukkan jenis transaksi (beli/jual): ").strip().upper()
+        hasil = [log for log in logs if jenis in log]
+        clear()
+        print(f"=== Transaksi {jenis} ===\n")
+        print("".join(hasil) if hasil else f"Tidak ada transaksi {jenis.lower()} ditemukan.")
+    elif pilihan == "3":
+        tanggal = input("Masukkan tanggal (format: YYYY-MM-DD): ").strip()
+        hasil = [log for log in logs if tanggal in log]
+        clear()
+        print(f"=== Transaksi tanggal {tanggal} ===\n")
+        print("".join(hasil) if hasil else f"Tidak ada transaksi pada tanggal {tanggal}.")
+    elif pilihan == "4":
+        return
+    else:
+        print("[X] Pilihan tidak valid (-.-)!")
+
+    input("\nTekan Enter untuk kembali ke menu... (-_-)")
+
 def menu():
     while True:
         clear()
         print("=== Black Market ===")
-        print("1. Beli barang")
-        print("2. Jual barang")
-        print("3. Lihat stock barang")
+        print("1. Beli barang illegal")
+        print("2. Jual barang illegal")
+        print("3. Lihat stock barang illegal")
         print("4. Lihat daftar organisasi 'Underground' yang berkontribusi di Black Market")
-        print("5. Keluar")
+        print("5. lihat riwayat transaksi barang")
+        print("6. Keluar")
 
-        pilihan = input("anda mau kemana? (1/2/3/4/5) pilihan di tangan anda... 🚬(-.-) :")
+        pilihan = input("anda mau kemana? (1/2/3/4/5/6) pilihan di tangan anda... 🚬(-.-) :")
 
         if pilihan == "1":
             beli_barang()
@@ -125,6 +178,8 @@ def menu():
         elif pilihan == "4":
             lihat_organisasi()
         elif pilihan == "5":
+            lihat_log()
+        elif pilihan == "6":
             clear()
             print("Anda keluar dari Black Market... sampai jumpa nanti (-_o)💰")
             break
