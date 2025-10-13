@@ -35,11 +35,6 @@
         "harga": 129950000
     },
     {
-        "nama": "HE Granade",
-        "stok": 43,
-        "harga": 2000000
-    },
-    {
         "nama": "Desert Eagle",
         "stok": 8,
         "harga": 15000000
@@ -76,18 +71,33 @@
     },
     {
         "nama": "Molotov",
-        "stok": 745,
+        "stok": 2745,
         "harga": 150000
     },
     {
         "nama": "Claymore Mine",
         "stok": 12,
-        "harga": 18000000
+        "harga": 18900000
     },
     {
         "nama": "Smoke Grenade",
         "stok": 120,
         "harga": 125000
+    },
+    {
+        "nama": "HE+Shrapnel Granade",
+        "stok": 53,
+        "harga": 3850000
+    },
+    {
+        "nama": "HE Granade",
+        "stok": 80,
+        "harga": 2000000
+    },
+    {
+        "nama": "Shrapnel Granade",
+        "stok": 110,
+        "harga": 1500000
     },
     {
         "nama": "Flashbang",
@@ -135,33 +145,68 @@
         "harga": 12500000
     },
     {
+        "nama": "Tracking Beacon",
+        "stok": 20,
+        "harga": 4500000
+    },
+    {
         "nama": "Spy Drone",
         "stok": 13,
         "harga": 9500000
     },
     {
         "nama": "Silencer (Universal)",
-        "stok": 50,
+        "stok": 55,
         "harga": 650000
     },
     {
         "nama": "Tactical Boots",
-        "stok": 75,
+        "stok": 175,
         "harga": 250000
     },
     {
         "nama": "Survival Kit",
-        "stok": 120,
-        "harga": 175000
+        "stok": 1200,
+        "harga": 375000
+    },
+    {
+        "nama": "First Aid Kit",
+        "stok": 1037,
+        "harga": 385000
+    },
+    {
+        "nama": "MedKit",
+        "stok": 2510,
+        "harga": 257000
+    },
+    {
+        "nama": "Bandage",
+        "stok": 5250,
+        "harga": 105000
+    },
+    {
+        "nama": "Adrenaline Syringe",
+        "stok": 102,
+        "harga": 475000
+    },
+    {
+        "nama": "Katana",
+        "stok": 25,
+        "harga": 600000
+    },
+    {
+        "nama": "Long Sword",
+        "stok": 125,
+        "harga": 450000
+    },
+    {
+        "nama": "Machete",
+        "stok": 150,
+        "harga": 375000
     },
     {
         "nama": "Combat Knife",
-        "stok": 140,
+        "stok": 250,
         "harga": 120000
-    },
-    {
-        "nama": "Tracking Beacon",
-        "stok": 20,
-        "harga": 4500000
     }
 ]

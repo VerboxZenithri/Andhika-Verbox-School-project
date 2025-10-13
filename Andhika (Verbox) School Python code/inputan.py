@@ -3,12 +3,10 @@ import json
 from datetime import datetime
 
 
-# Fungsi clear screen
-def clear():
+def clear():  # Fungsi clear screen
     os.system("cls" if os.name == "nt" else "clear")
 
-# Data stock dan organisasi di Json
-def load_json(filename, default_value):
+def load_json(filename, default_value):  # Data stock dan organisasi di Json
     if not os.path.exists(filename):
         with open(filename, "w") as f:
             json.dump(default_value, f, indent=4)
@@ -20,15 +18,15 @@ def save_json(filename, data):
     with open(filename, "w") as f:
         json.dump(data, f, indent=4)
 
-stock = load_json("data barang black market.json", []) #stock barang
-organisasi = load_json("daftar organisasi.json", []) #daftar organisasi
-saldo_data = load_json("uang.json",{}) #saldo user
+stock = load_json("data barang black market.json", [])  #Stock Barang
+organisasi = load_json("daftar organisasi.json", [])  #Daftar Organisasi
+saldo_data = load_json("uang.json",{})  #Saldo User
 saldo = saldo_data["saldo"]
 
-def tampilkan_stok():
+def tampilkan_stok():  #Menampilkan Stock Barang
     print("=== Stok Barang ===\n")
     for i, produk in enumerate(stock, start=1):
-        print(f"{i}. {produk['nama']} - Stok: {produk['stok']} - Harga: ${produk['harga']}")
+        print(f"{i}. {produk['nama']} - Stok: {produk['stok']:,} - Harga: ${produk['harga']:,}")
     print(f"\nSaldo Anda : ${saldo:,}")
 
 def save_stock_and_saldo():
@@ -41,7 +39,7 @@ def riwayat_transaksi(tipe, nama_barang, jumlah, total):
         log.write(f"[{waktu}] {tipe} {jumlah}x {nama_barang} - Total: ${total:,}\n")
 
 
-def beli_barang():
+def beli_barang():  #Cara Kerja Beli Barang
     global saldo
     clear()
     tampilkan_stok()
@@ -77,7 +75,7 @@ def beli_barang():
         print("\n[X] Stok tidak mencukupi (-.-)!")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
-def jual_barang():
+def jual_barang():  #Cara Kerja Menjual Barang
     global saldo
     clear()
     tampilkan_stok()
@@ -107,7 +105,7 @@ def jual_barang():
     print(f"Saldo Anda sekarang: ${saldo:,}")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
-def lihat_organisasi():
+def lihat_organisasi(): #Untuk Melihat Daftar Organisasi 
     clear()
     print("=== Daftar Organisasi Underground ===\n")
     for i, org in enumerate(organisasi, start=1):
@@ -120,7 +118,7 @@ def baca_log():
     with open("transaksi_log.txt", "r", encoding="utf-8") as f:
         return f.readlines()
 
-def lihat_log():
+def lihat_log():  #Mendefinisikan Histori Dan Cara Kerja NYa
     clear()
     print("=== Riwayat Transaksi ===")
     print("1. Lihat semua transaksi")
@@ -137,7 +135,7 @@ def lihat_log():
         print("".join(logs) if logs else "Belum ada transaksi tercatat.")
     elif pilihan == "2":
         jenis = input("Masukkan jenis transaksi (beli/jual): ").strip().upper()
-        hasil = [log for log in logs if jenis in log]
+        hasil = [log for log in logs if jenis.lower() in log.lower()]
         clear()
         print(f"=== Transaksi {jenis} ===\n")
         print("".join(hasil) if hasil else f"Tidak ada transaksi {jenis.lower()} ditemukan.")
@@ -154,7 +152,7 @@ def lihat_log():
 
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
-def menu():
+def menu():  #Mendefinisikan Menu
     while True:
         clear()
         print("=== Black Market ===")
@@ -188,4 +186,4 @@ def menu():
             input("\nTekan Enter untuk lanjut... (-.-)!")
 
 if __name__=="__main__":
-    menu()
+    menu() #Menjalankan Fungsi Menu
