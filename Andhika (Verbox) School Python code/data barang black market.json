@@ -1,8 +1,8 @@
 [
     {
         "nama": "Barreta 92",
-        "stok": 120,
-        "harga": 935000
+        "stok": 130,
+        "harga": 813450
     },
     {
         "nama": "Colt 1911",
@@ -11,8 +11,8 @@
     },
     {
         "nama": "AK-47",
-        "stok": 55,
-        "harga": 4500000
+        "stok": 124,
+        "harga": 4129807
     },
     {
         "nama": "BMG-50",
@@ -21,38 +21,38 @@
     },
     {
         "nama": "Glock",
-        "stok": 352,
-        "harga": 480000
+        "stok": 350,
+        "harga": 464736
     },
     {
         "nama": "Illegal M4",
-        "stok": 5,
+        "stok": 50,
         "harga": 12000000
     },
     {
         "nama": "RPG-7",
-        "stok": 5,
+        "stok": 8,
         "harga": 129950000
     },
     {
         "nama": "Desert Eagle",
-        "stok": 8,
+        "stok": 80,
         "harga": 15000000
     },
     {
         "nama": "Uzi",
-        "stok": 60,
-        "harga": 2500000
+        "stok": 66,
+        "harga": 2700000
     },
     {
         "nama": "FN SCAR",
-        "stok": 10,
+        "stok": 34,
         "harga": 12000000
     },
     {
         "nama": "M16A4",
-        "stok": 22,
-        "harga": 7000000
+        "stok": 98,
+        "harga": 7233072
     },
     {
         "nama": "Dragunov SVD",
@@ -66,17 +66,17 @@
     },
     {
         "nama": "C4 Explosive",
-        "stok": 6,
+        "stok": 14,
         "harga": 45000000
     },
     {
         "nama": "Molotov",
-        "stok": 2745,
-        "harga": 150000
+        "stok": 2613,
+        "harga": 191520
     },
     {
         "nama": "Claymore Mine",
-        "stok": 12,
+        "stok": 22,
         "harga": 18900000
     },
     {
@@ -87,22 +87,22 @@
     {
         "nama": "HE+Shrapnel Granade",
         "stok": 53,
-        "harga": 3850000
+        "harga": 885000
     },
     {
         "nama": "HE Granade",
-        "stok": 80,
-        "harga": 2000000
+        "stok": 82,
+        "harga": 352000
     },
     {
         "nama": "Shrapnel Granade",
-        "stok": 110,
-        "harga": 1500000
+        "stok": 89,
+        "harga": 420000
     },
     {
         "nama": "Flashbang",
         "stok": 90,
-        "harga": 250000
+        "harga": 205000
     },
     {
         "nama": "Kevlar Vest",
@@ -116,27 +116,27 @@
     },
     {
         "nama": "Night Vision Goggles",
-        "stok": 7,
+        "stok": 13,
         "harga": 35000000
     },
     {
         "nama": "Tactical Shield",
-        "stok": 6,
-        "harga": 5000000
+        "stok": 8,
+        "harga": 5550000
     },
     {
         "nama": "Thick Plastic Shield",
-        "stok": 31,
-        "harga": 1700000
+        "stok": 30,
+        "harga": 1938000
     },
     {
         "nama": "EMP Device",
-        "stok": 3,
+        "stok": 5,
         "harga": 85500000
     },
     {
         "nama": "Signal Jammer",
-        "stok": 8,
+        "stok": 11,
         "harga": 22000000
     },
     {
@@ -207,6 +207,6 @@
     {
         "nama": "Combat Knife",
         "stok": 250,
-        "harga": 120000
+        "harga": 121611
     }
 ]

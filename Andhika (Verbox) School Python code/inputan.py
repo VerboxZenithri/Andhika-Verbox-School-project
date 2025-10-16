@@ -1,7 +1,26 @@
 import os
 import json
+import vlc
+import threading
+import time
+import random
 from datetime import datetime
 
+def play_music():  #Fungsi Putar Musik Di Background
+    path = os.path.join(os.path.dirname(__file__), "bgm.mp3")  #Langsung Cari Lagu Di Folder Sama
+    player = vlc.MediaPlayer(path)
+    player.play()
+    player.audio_set_volume(75)
+    while True:
+        state = player.get_state()
+        if state == vlc.State.Ended:  #Agar NgeLoop
+            player.stop()
+            player.play()
+            player.audio_set_volume(75)
+        time.sleep(1)
+
+music_thread = threading.Thread(target=play_music, daemon=True)
+music_thread.start()
 
 def clear():  # Fungsi clear screen
     os.system("cls" if os.name == "nt" else "clear")
@@ -33,11 +52,32 @@ def save_stock_and_saldo():
     save_json("data barang black market.json", stock)
     save_json("uang.json", {"saldo": saldo})
 
-def riwayat_transaksi(tipe, nama_barang, jumlah, total):
+def riwayat_transaksi(tipe, nama_barang, jumlah, total, effect=None):
     waktu = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open("transaksi_log.txt", "a", encoding="utf-8") as log:
         log.write(f"[{waktu}] {tipe} {jumlah}x {nama_barang} - Total: ${total:,}\n")
+        if effect:
+            log.write(f"    └─ {effect}\n")
 
+def fluktuasi_harga(produk, tipe):
+    
+    persen = random.randint(3, 20)  #Harga Akan Terjadi Fluktuasi Di Sekitaran 3%-20%
+
+    if tipe == "beli":
+        produk['harga'] = int(produk['harga'] * (1 + persen / 100))
+        effect = f"Harga {produk['nama']} naik {persen}% jadi ${produk['harga']:,}"
+    elif tipe == "jual":
+        produk['harga'] = int(produk['harga'] * (1 - persen / 100))
+        if produk['harga'] < 1:
+            produk['harga'] = 1
+        effect = f"Harga {produk['nama']} turun {persen}% jadi ${produk['harga']:,}"
+    else:
+        effect = ""
+
+    return effect
+#Ini Fungsi Di Atas Untuk Mengubah Harga Jadi Naik/Turun Dengan Random Tergantung Pilih Beli/Jual, Jadi Seperti Ini:
+#"beli" → harga naik
+#"jual" → harga turun
 
 def beli_barang():  #Cara Kerja Beli Barang
     global saldo
@@ -65,9 +105,11 @@ def beli_barang():  #Cara Kerja Beli Barang
         if saldo >= total:
             produk['stok'] -= jumlah
             saldo -= total
+            effect = fluktuasi_harga(produk,"beli")
             save_stock_and_saldo()
-            riwayat_transaksi("beli", produk['nama'], jumlah, total)
+            riwayat_transaksi("beli", produk['nama'], jumlah, total, effect)
             print(f"\nAnda membeli {jumlah} {produk['nama']} seharga ${total:,}")
+            print("\033[92m"+effect+"\033[0m")
             print(f"Sisa saldo Anda: ${saldo:,}")
         else:
             print("\n[X] Saldo tidak cukup (-.-)!")
@@ -99,9 +141,11 @@ def jual_barang():  #Cara Kerja Menjual Barang
     produk['stok'] += jumlah
     total = jumlah * (produk['harga'] // 2)
     saldo += total
+    effect = fluktuasi_harga(produk,"jual")
     save_stock_and_saldo()
-    riwayat_transaksi("jual", produk['nama'], jumlah, total)
+    riwayat_transaksi("jual", produk['nama'], jumlah, total, effect)
     print(f"\nAnda menjual {jumlah} {produk['nama']} dan mendapat ${total:,}")
+    print("\033[91m"+effect+"\033[0m")
     print(f"Saldo Anda sekarang: ${saldo:,}")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
@@ -164,7 +208,6 @@ def menu():  #Mendefinisikan Menu
         print("6. Keluar")
 
         pilihan = input("anda mau kemana? (1/2/3/4/5/6) pilihan di tangan anda... 🚬(-.-) :")
-
         if pilihan == "1":
             beli_barang()
         elif pilihan == "2":
@@ -179,7 +222,7 @@ def menu():  #Mendefinisikan Menu
             lihat_log()
         elif pilihan == "6":
             clear()
-            print("Anda keluar dari Black Market... sampai jumpa nanti (-_o)💰")
+            print("Anda keluar dari Black Market... sampai jumpa nanti (-_o)✌︎💰")
             break
         else:
             print("[X] Pilihan tidak valid (-.-)!!!")
