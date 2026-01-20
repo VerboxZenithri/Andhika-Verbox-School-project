@@ -1,18 +1,18 @@
 [
     {
         "nama": "Barreta 92",
-        "stok": 130,
+        "stok": 37,
         "harga": 813450
     },
     {
         "nama": "Colt 1911",
-        "stok": 87,
+        "stok": 286,
         "harga": 1050000
     },
     {
         "nama": "AK-47",
-        "stok": 123,
-        "harga": 4460191
+        "stok": 18,
+        "harga": 5263025
     },
     {
         "nama": "BMG-50",
@@ -21,8 +21,8 @@
     },
     {
         "nama": "Glock",
-        "stok": 350,
-        "harga": 464736
+        "stok": 367,
+        "harga": 297431
     },
     {
         "nama": "Illegal M4",
@@ -56,12 +56,12 @@
     },
     {
         "nama": "Dragunov SVD",
-        "stok": 28,
+        "stok": 926,
         "harga": 22000000
     },
     {
         "nama": "MP5",
-        "stok": 30,
+        "stok": 200,
         "harga": 3000000
     },
     {
@@ -71,22 +71,22 @@
     },
     {
         "nama": "Molotov",
-        "stok": 2613,
+        "stok": 100,
         "harga": 191520
     },
     {
         "nama": "Claymore Mine",
-        "stok": 22,
+        "stok": 163,
         "harga": 18900000
     },
     {
         "nama": "Smoke Grenade",
-        "stok": 120,
+        "stok": 268,
         "harga": 125000
     },
     {
         "nama": "HE+Shrapnel Granade",
-        "stok": 53,
+        "stok": 14,
         "harga": 885000
     },
     {
@@ -101,7 +101,7 @@
     },
     {
         "nama": "Flashbang",
-        "stok": 90,
+        "stok": 108,
         "harga": 205000
     },
     {
@@ -111,17 +111,17 @@
     },
     {
         "nama": "Tactical Helmet",
-        "stok": 40,
+        "stok": 26,
         "harga": 650000
     },
     {
         "nama": "Night Vision Goggles",
-        "stok": 13,
-        "harga": 35000000
+        "stok": 213,
+        "harga": 57049999
     },
     {
         "nama": "Tactical Shield",
-        "stok": 8,
+        "stok": 1367,
         "harga": 5550000
     },
     {
@@ -131,17 +131,17 @@
     },
     {
         "nama": "EMP Device",
-        "stok": 5,
-        "harga": 85500000
+        "stok": 75,
+        "harga": 32588551
     },
     {
         "nama": "Signal Jammer",
-        "stok": 11,
+        "stok": 1149,
         "harga": 22000000
     },
     {
         "nama": "Hacking Laptop",
-        "stok": 28,
+        "stok": 1682,
         "harga": 14307500
     },
     {
@@ -151,32 +151,32 @@
     },
     {
         "nama": "Spy Drone",
-        "stok": 13,
+        "stok": 885,
         "harga": 9500000
     },
     {
         "nama": "Silencer (Universal)",
-        "stok": 55,
+        "stok": 765,
         "harga": 650000
     },
     {
         "nama": "Tactical Boots",
-        "stok": 175,
+        "stok": 833,
         "harga": 250000
     },
     {
         "nama": "Survival Kit",
-        "stok": 1200,
+        "stok": 1199,
         "harga": 375000
     },
     {
         "nama": "First Aid Kit",
-        "stok": 1037,
+        "stok": 1269,
         "harga": 385000
     },
     {
         "nama": "MedKit",
-        "stok": 2510,
+        "stok": 2530,
         "harga": 257000
     },
     {
@@ -186,27 +186,27 @@
     },
     {
         "nama": "Adrenaline Syringe",
-        "stok": 102,
-        "harga": 475000
+        "stok": 90,
+        "harga": 556605
     },
     {
         "nama": "Katana",
-        "stok": 25,
-        "harga": 600000
+        "stok": 1102,
+        "harga": 990000
     },
     {
         "nama": "Long Sword",
-        "stok": 125,
+        "stok": 4298,
         "harga": 450000
     },
     {
         "nama": "Machete",
-        "stok": 150,
+        "stok": 947,
         "harga": 375000
     },
     {
         "nama": "Combat Knife",
-        "stok": 250,
+        "stok": 667,
         "harga": 121611
     }
 ]

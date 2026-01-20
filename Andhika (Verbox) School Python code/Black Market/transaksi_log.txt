@@ -52,3 +52,31 @@
     └─ Harga Hacking Laptop naik 18% jadi $14,750,000!!!
 [2025-10-19 12:58:37] jual 20x Hacking Laptop - Total: $147,500,000
     └─ Harga Hacking Laptop turun 3% jadi $14,307,500!!!
+[2025-10-20 14:45:28] jual 2x Adrenaline Syringe - Total: $475,000
+    └─ Harga Adrenaline Syringe turun 37% jadi $299,250!!!
+[2025-10-20 14:45:51] beli 14x Adrenaline Syringe - Total: $4,189,500
+    └─ Harga Adrenaline Syringe naik 86% jadi $556,605!!!
+[2025-10-27 22:32:32] beli 105x AK-47 - Total: $468,320,055
+    └─ Harga AK-47 naik 18% jadi $5,263,025!!!
+[2025-10-27 22:53:36] jual 204x EMP Device - Total: $8,721,000,000
+    └─ Harga EMP Device turun 94% jadi $5,130,000!!!
+[2025-10-27 22:55:36] beli 2x EMP Device - Total: $10,260,000
+    └─ Harga EMP Device naik 33% jadi $6,822,900!!!
+[2025-10-27 22:55:48] beli 12x EMP Device - Total: $81,874,800
+    └─ Harga EMP Device naik 78% jadi $12,144,762!!!
+[2025-10-27 22:56:45] beli 35x EMP Device - Total: $425,066,670
+    └─ Harga EMP Device naik 28% jadi $15,545,295!!!
+[2025-10-27 22:57:08] beli 2x EMP Device - Total: $31,090,590
+    └─ Harga EMP Device naik 12% jadi $17,410,730!!!
+[2025-10-27 22:57:19] beli 7x EMP Device - Total: $121,875,110
+    └─ Harga EMP Device naik 47% jadi $25,593,773!!!
+[2025-10-27 22:58:39] beli 75x Katana - Total: $45,000,000
+    └─ Harga Katana naik 65% jadi $990,000!!!
+[2025-10-27 22:58:49] beli 17x EMP Device - Total: $435,094,141
+    └─ Harga EMP Device naik 7% jadi $27,385,337!!!
+[2025-10-27 22:59:15] beli 59x EMP Device - Total: $1,615,734,883
+    └─ Harga EMP Device naik 19% jadi $32,588,551!!!
+[2026-01-20 07:11:47] beli 42x Night Vision Goggles - Total: $1,470,000,000
+    └─ Harga Night Vision Goggles naik 63% jadi $57,049,999!!!
+[2026-01-20 07:12:21] jual 20x Glock - Total: $4,647,360
+    └─ Harga Glock turun 36% jadi $297,431!!!
