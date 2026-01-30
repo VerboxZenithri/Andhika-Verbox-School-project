@@ -27,7 +27,7 @@ daftar_kopi = [
 ]
 
 def tampilkan_stock():
-    print("===DAFTAR STOK KOPI SAAT INI===")
+    print("===DAFTAR STOCK KOPI SAAT INI===")
     if not daftar_kopi:
         print("kosong melompong wok...")
     else:
