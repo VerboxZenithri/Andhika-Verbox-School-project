@@ -10,13 +10,13 @@ from datetime import datetime
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def play_music():  #Fungsi Putar Musik Di Background
-    path = os.path.join(BASE_DIR, "bgm.mp3")  #Langsung Cari Lagu Di Folder Sama
-    player = vlc.MediaPlayer(path)
+    path=os.path.join(BASE_DIR,"bgm.mp3")  #Langsung Cari Lagu Di Folder Sama
+    player=vlc.MediaPlayer(path)
     player.play()
     player.audio_set_volume(75)
     while True:
-        state = player.get_state()
-        if state == vlc.State.Ended:  #Agar NgeLoop
+        state=player.get_state()
+        if state==vlc.State.Ended:  #Agar NgeLoop
             player.stop()
             player.play()
             player.audio_set_volume(75)
@@ -192,7 +192,7 @@ def lihat_organisasi():
 def auto_refresh_organisasi():  #Thread Auto Refresh Tampilan
     while True:
         lihat_organisasi()
-        time.sleep(5)  # refresh setiap 5 detik
+        time.sleep(5)  #Refresh Tiap 5 detik
 
 def baca_log():
     log_path = os.path.join(BASE_DIR, "transaksi_log.txt")
@@ -201,43 +201,57 @@ def baca_log():
     with open(log_path, "r", encoding="utf-8") as f:
         return f.readlines()
 
-def lihat_log():  #Mendefinisikan Histori Dan Cara Kerja NYa
-    clear()
-    print("=== Riwayat Transaksi ===")
-    print("1. Lihat semua transaksi")
-    print("2. Filter berdasarkan jenis transaksi (BELI / JUAL)")
-    print("3. Filter berdasarkan tanggal (YYYY-MM-DD)")
-    print("4. Kembali")
-
-    pilihan = input("\nPilih opsi (1/2/3/4) 📃(-.-): ")
-    logs = baca_log()
-
-    if pilihan == "1":
+def lihat_log():        #Mendefinisikan Histori Dan Cara Kerja NYa
+    index_select=0
+    opt_log=[
+        "1. Lihat semua transaksi",
+        "2. Filter berdasarkan jenis transaksi (BELI / JUAL)",
+        "3. Filter berdasarkan tanggal (YYYY-MM-DD)",
+        "4. Kembali"
+    ]
+    while True:
         clear()
-        print("=== Semua Transaksi ===\n")
-        print("".join(logs) if logs else "Belum ada transaksi tercatat.")
-    elif pilihan == "2":
-        jenis = input("Masukkan jenis transaksi (beli/jual): ").strip().upper()
-        hasil = [log for log in logs if jenis.lower() in log.lower()]
-        clear()
-        print(f"=== Transaksi {jenis} ===\n")
-        print("".join(hasil) if hasil else f"Tidak ada transaksi {jenis.lower()} ditemukan.")
-    elif pilihan == "3":
-        tanggal = input("Masukkan tanggal (format: YYYY-MM-DD): ").strip()
-        hasil = [log for log in logs if tanggal in log]
-        clear()
-        print(f"=== Transaksi tanggal {tanggal} ===\n")
-        print("".join(hasil) if hasil else f"Tidak ada transaksi pada tanggal {tanggal}.")
-    elif pilihan == "4":
-        return
-    else:
-        print("[X] Pilihan tidak valid (-.-)!")
-
-    input("\nTekan Enter untuk kembali ke menu... (-_-)")
+        print("=== Riwayat Transaksi ===")
+        for i,opsi in enumerate(opt_log):
+            if i==index_select:
+                print(f"\033[42;30m>{opsi}\033[0m\033[32m")
+            else:
+                print(f"   {opsi}")
+        key=msvcrt.getch()
+        if key==b'\xe0':
+            tombol=msvcrt.getch()
+            if tombol==b'H': index_select=(index_select-1)%len(opt_log)
+            elif tombol==b'P': index_select=(index_select+1)%len(opt_log)
+        elif key in [b'1',b'2',b'3',b'4']:
+            index_select=int(key)-1
+        elif key in [b'\r',b'\n']:
+            pilihan=str(index_select+1)
+            logs=baca_log()
+            if pilihan=="1":
+                clear()
+                print("=== Semua Transaksi ===\n")
+                print("".join(logs) if logs else "Belum ada transaksi tercatat.")
+                input("\nTekan Enter untuk kembali... (-_-)")
+            elif pilihan=="2":
+                jenis=input("Masukkan jenis transaksi (beli/jual): ").strip().upper()
+                hasil=[log for log in logs if jenis.lower() in log.lower()]
+                clear()
+                print(f"=== Transaksi {jenis} ===\n")
+                print("".join(hasil) if hasil else f"Tidak ada transaksi {jenis.lower()} ditemukan.")
+                input("\nTekan Enter untuk kembali... (-_-)")
+            elif pilihan=="3":
+                tanggal=input("Masukkan tanggal (format: YYYY-MM-DD): ").strip()
+                hasil=[log for log in logs if tanggal in log]
+                clear()
+                print(f"=== Transaksi tanggal {tanggal} ===\n")
+                print("".join(hasil) if hasil else f"Tidak ada transaksi pada tanggal {tanggal}.")
+                input("\nTekan Enter untuk kembali... (-_-)")
+            elif pilihan=="4":
+                return
 
 def aktivitas_organisasi():
     while True:
-        time.sleep(25)  #Timing 25Detik
+        time.sleep(20)  #Timing 20Detik
         if not organisasi or not stock:
             continue
 
@@ -277,75 +291,115 @@ def baca_log_organisasi():
     with open(log_path, "r", encoding="utf-8") as f:
         return f.readlines()
 
-def lihat_log_organisasi():  #Mendefinisikan Histori Dan Cara Kerja NYa
-    clear()
-    print("=== Riwayat Transaksi Organisasi ===")
-    print("1. Lihat semua transaksi")
-    print("2. Filter berdasarkan jenis transaksi (BELI / JUAL)")
-    print("3. Filter berdasarkan tanggal (YYYY-MM-DD)")
-    print("4. Kembali")
-
-    pilihan = input("\nPilih opsi (1/2/3/4) 📃(-.-): ")
-    logs = baca_log_organisasi()
-
-    if pilihan == "1":
-        clear()
-        print("=== Semua Transaksi Organisasi ===\n")
-        print("".join(logs) if logs else "Belum ada transaksi tercatat.")
-    elif pilihan == "2":
-        jenis = input("Masukkan jenis transaksi (beli/jual): ").strip().upper()
-        hasil = [log for log in logs if jenis.lower() in log.lower()]
-        clear()
-        print(f"=== Transaksi {jenis} ===\n")
-        print("".join(hasil) if hasil else f"Tidak ada transaksi {jenis.lower()} ditemukan.")
-    elif pilihan == "3":
-        tanggal = input("Masukkan tanggal (format: YYYY-MM-DD): ").strip()
-        hasil = [log for log in logs if tanggal in log]
-        clear()
-        print(f"=== Transaksi tanggal {tanggal} ===\n")
-        print("".join(hasil) if hasil else f"Tidak ada transaksi pada tanggal {tanggal}.")
-    elif pilihan == "4":
-        return
-    else:
-        print("[X] Pilihan tidak valid (-.-)!")
-
-    input("\nTekan Enter untuk kembali ke menu... (-_-)")
-
-def menu():  #Mendefinisikan Menu
+def lihat_log_organisasi():     #Mendefinisikan Histori Dan Cara Kerja Nya Untuk Log Organisa
+    index_select=0
+    opt_log_org=[
+        "1. Lihat semua transaksi",
+        "2. Filter berdasarkan jenis transaksi (BELI / JUAL)",
+        "3. Filter berdasarkan tanggal (YYYY-MM-DD)",
+        "4. Kembali"
+    ]
     while True:
         clear()
-        print("\033[32m=== Black Market ===") #Terminal Akan Berwarna Hijau Terus
-        print("1. Beli barang illegal")
-        print("2. Jual barang illegal")
-        print("3. Lihat stock barang illegal")
-        print("4. Lihat daftar organisasi 'Underground' yang berkontribusi di Black Market")
-        print("5. lihat riwayat transaksi barang")
-        print("6. Lihat riwayat transaksi organisasi 'Underground'")
-        print("7. Keluar")
+        print("=== Riwayat Transaksi Organisasi ===")
+        for i,opsi in enumerate(opt_log_org):
+            if i==index_select:
+                print(f"\033[42;30m>{opsi}\033[0m\033[32m")
+            else:
+                print(f"   {opsi}")
+        key=msvcrt.getch()
+        if key==b'\xe0':
+            tombol=msvcrt.getch()
+            if tombol==b'H':index_select=(index_select-1)%len(opt_log_org)
+            elif tombol==b'P':index_select=(index_select+1)%len(opt_log_org)
+        elif key in [b'1',b'2',b'3',b'4']:
+            index_select=int(key)-1
+        elif key in [b'\r',b'\n']:
+            pilihan=str(index_select+1)
+            logs=baca_log_organisasi()
+            if pilihan=="1":
+                clear()
+                print("=== Semua Transaksi Organisasi ===\n")
+                print("".join(logs) if logs else "Belum ada transaksi tercatat.")
+                input("\nTekan Enter untuk kembali... (-_-)")
+            elif pilihan=="2":
+                jenis=input("Masukkan jenis transaksi (beli/jual): ").strip().upper()
+                hasil=[log for log in logs if jenis.lower() in log.lower()]
+                clear()
+                print(f"=== Transaksi {jenis} ===\n")
+                print("".join(hasil) if hasil else f"Tidak ada transaksi {jenis.lower()} ditemukan.")
+                input("\nTekan Enter untuk kembali... (-_-)")
+            elif pilihan=="3":
+                tanggal=input("Masukkan tanggal (format: YYYY-MM-DD): ").strip()
+                hasil=[log for log in logs if tanggal in log]
+                clear()
+                print(f"=== Transaksi tanggal {tanggal} ===\n")
+                print("".join(hasil) if hasil else f"Tidak ada transaksi pada tanggal {tanggal}.")
+                input("\nTekan Enter untuk kembali... (-_-)")
+            elif pilihan=="4":
+                return
 
-        pilihan = input("anda mau kemana? (1/2/3/4/5/6/7) pilihan di tangan anda... 🚬(-.-) :")
-        if pilihan == "1":
-            beli_barang()
-        elif pilihan == "2":
-            jual_barang()
-        elif pilihan == "3":
-            clear()
-            tampilkan_stok()
-            input("\nTekan Enter untuk kembali ke menu... (-_-)")
-        elif pilihan == "4":
-            lihat_organisasi()
-        elif pilihan == "5":
-            lihat_log()
-        elif pilihan == "6":
-            lihat_log_organisasi()
-        elif pilihan == "7":
-            clear()
-            print("Anda keluar dari Black Market... sampai jumpa nanti (-_o)✌︎💰")
-            break
-        else:
-            print("[X] Pilihan tidak valid (-.-)!!!")
-            input("\nTekan Enter untuk lanjut... (-.-)!")
+def menu():
+    index_select=0
+    opt_menu=[
+        "1. Beli barang illegal",
+        "2. Jual barang illegal",
+        "3. Lihat stock barang illegal",
+        "4. Lihat daftar organisasi 'Underground'",
+        "5. Lihat riwayat transaksi barang",
+        "6. Lihat riwayat transaksi organisasi",
+        "7. Keluar"
+    ]
 
+    while True:
+        clear()
+        print("\033[32m=== Black Market ===")
+        print("Gunakan PANAH ATAS/BAWAH atau ANGKA, lalu tekan ENTER\nPilihan di tangan anda🚬(-.-)\n")
+
+        #Menaampilkan Menu Dengan Indikator Pilihan
+        for i,opsi in enumerate(opt_menu):
+            if i==index_select:
+                print(f"\033[42;30m>{opsi}\033[0m\033[32m") #Highlight
+            else:
+                print(f"   {opsi}")
+
+        key=msvcrt.getch()        #Menangkap Inp Tombol Tanpa Enter
+
+        #Jika Mencet Arah Panah (Special Key di Windows)
+        if key==b'\xe0': 
+            tombol=msvcrt.getch()
+            if tombol==b'H': #Atas
+                index_select=(index_select-1)%len(opt_menu)
+            elif tombol==b'P': #Bawah
+                index_select=(index_select+1)%len(opt_menu)
+        
+        #Kalau Nekan Angka 1-7
+        elif key in [b'1',b'2',b'3',b'4',b'5',b'6',b'7']:
+            index_select=int(key)-1
+
+        #Enter
+        elif key in [b'\r',b'\n']:
+            pilihan=str(index_select+1)
+            
+            if pilihan == "1":
+                beli_barang() #Tetap Pakai input() Disini
+            elif pilihan == "2":
+                jual_barang()
+            elif pilihan == "3":
+                clear()
+                tampilkan_stok()
+                input("\nTekan Enter untuk kembali... (-_-)")
+            elif pilihan == "4":
+                lihat_organisasi()
+            elif pilihan == "5":
+                lihat_log()
+            elif pilihan == "6":
+                lihat_log_organisasi()
+            elif pilihan == "7":
+                clear()
+                print("Anda keluar dari Black Market... sampai jumpa nanti (-_o)✌︎💰")
+                break
+    
 if __name__=="__main__":
     org_thread=threading.Thread(target=aktivitas_organisasi,daemon=True)
     org_thread.start()
