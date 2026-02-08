@@ -28,7 +28,7 @@ music_thread.start()
 def clear():  # Fungsi clear screen
     os.system("cls" if os.name == "nt" else "clear")
 
-def load_json(filename, default_value):  # Data stock dan organisasi di Json
+def load_json(filename, default_value):     #Data stock dan organisasi di Json
     file_path = os.path.join(BASE_DIR, filename)
     if not os.path.exists(file_path):
         with open(file_path, "w", encoding="utf-8") as f:
@@ -37,7 +37,7 @@ def load_json(filename, default_value):  # Data stock dan organisasi di Json
     with open(file_path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-def save_json(filename, data):
+def save_json(filename, data):              #Menyimpan Data Dalam JSON
     file_path = os.path.join(BASE_DIR, filename)
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
@@ -46,7 +46,7 @@ stock = load_json("data barang black market.json", [])  #Stock Barang
 organisasi = load_json("daftar organisasi.json", [])  #Daftar Organisasi
 saldo_data = load_json("uang.json",{})  #Saldo User
 saldo = saldo_data["saldo"]
-aktivitas_terakhir = {}  # menyimpan aktivitas terakhir setiap organisasi
+aktivitas_terakhir = {}  #menyimpan aktivitas terakhir setiap organisasi
 aktivitas_organisasi_terakhir = {}
 
 
@@ -56,11 +56,11 @@ def tampilkan_stok():  #Menampilkan Stock Barang
         print(f"{i}. {produk['nama']} - Stok: {produk['stok']:,} - Harga: ${produk['harga']:,}")
     print(f"\nSaldo Anda : ${saldo:,}")
 
-def save_stock_and_saldo():
+def save_stock_and_saldo():     #Menyimpan Data Stok & Saldo User
     save_json("data barang black market.json", stock)
     save_json("uang.json", {"saldo": saldo})
 
-def riwayat_transaksi(tipe, nama_barang, jumlah, total, effect=None):
+def riwayat_transaksi(tipe, nama_barang, jumlah, total, effect=None):       #Log/History Transaksi User
     waktu = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_path = os.path.join(BASE_DIR, "transaksi_log.txt")
     with open(log_path, "a", encoding="utf-8") as log:
@@ -88,7 +88,7 @@ def fluktuasi_harga(produk, tipe):
 #"beli" → harga naik
 #"jual" → harga turun
 
-def beli_barang():  #Cara Kerja Beli Barang
+def beli_barang():  #Fungsi/Cara Kerja Beli Barang
     global saldo
     clear()
     tampilkan_stok()
@@ -126,7 +126,7 @@ def beli_barang():  #Cara Kerja Beli Barang
         print("\n[X] Stok tidak mencukupi (-.-)!")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
-def jual_barang():  #Cara Kerja Menjual Barang
+def jual_barang():  #Fungsi/Cara Kerja Menjual Barang
     global saldo
     clear()
     tampilkan_stok()
@@ -158,7 +158,7 @@ def jual_barang():  #Cara Kerja Menjual Barang
     print(f"Saldo Anda sekarang: ${saldo:,}")
     input("\nTekan Enter untuk kembali ke menu... (-_-)")
 
-def catat_aktivitas_organisasi(org, deskripsi, warna):
+def catat_aktivitas_organisasi(org, deskripsi, warna):      #Log/History Transaksi Organisasi
     global aktivitas_organisasi_terakhir
     aktivitas_organisasi_terakhir[org] = f"{warna}{org} {deskripsi}\033[0m"+"\033[32m"
 
@@ -167,7 +167,7 @@ def catat_aktivitas_organisasi(org, deskripsi, warna):
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(f"[{waktu}] {org} {deskripsi}\n")
 
-def lihat_organisasi():
+def lihat_organisasi():         #Model Sebelumnya Berisi Nama Saja, Tapi Sekarang Menjadi Ekosistem Yang Hidup
     while True:
         clear()
         print("\033[32m=== Daftar Organisasi Underground (Live) ===\n")
@@ -194,14 +194,14 @@ def auto_refresh_organisasi():  #Thread Auto Refresh Tampilan
         lihat_organisasi()
         time.sleep(5)  #Refresh Tiap 5 detik
 
-def baca_log():
+def baca_log():         #Fungsi Membaca Data Log Untuk Bisa Di Lihat                                   
     log_path = os.path.join(BASE_DIR, "transaksi_log.txt")
     if not os.path.exists(log_path):
         return []
     with open(log_path, "r", encoding="utf-8") as f:
         return f.readlines()
 
-def lihat_log():        #Mendefinisikan Histori Dan Cara Kerja NYa
+def lihat_log():        #Fungsi Histori Dan Cara Kerja NYa
     index_select=0
     opt_log=[
         "1. Lihat semua transaksi",
@@ -249,7 +249,7 @@ def lihat_log():        #Mendefinisikan Histori Dan Cara Kerja NYa
             elif pilihan=="4":
                 return
 
-def aktivitas_organisasi():
+def aktivitas_organisasi():     #NPC AI, Agar Ada Simulasi Perdagangan Oleh Para Organisasi
     while True:
         time.sleep(20)  #Timing 20Detik
         if not organisasi or not stock:
@@ -284,14 +284,14 @@ def aktivitas_organisasi():
         save_json("data barang black market.json", stock)
         catat_aktivitas_organisasi(org, deskripsi, warna)
 
-def baca_log_organisasi():
+def baca_log_organisasi():      #Fungsi Membaca Data Log Untuk Bisa Di Lihat 
     log_path = os.path.join(BASE_DIR, "transaksi_organisasi_log.txt")
     if not os.path.exists(log_path):
         return []
     with open(log_path, "r", encoding="utf-8") as f:
         return f.readlines()
 
-def lihat_log_organisasi():     #Mendefinisikan Histori Dan Cara Kerja Nya Untuk Log Organisa
+def lihat_log_organisasi():     #Fungsi Histori Dan Cara Kerja Nya (Log Organisasi)
     index_select=0
     opt_log_org=[
         "1. Lihat semua transaksi",

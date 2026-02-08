@@ -88,3 +88,7 @@
     └─ Harga Night Vision Goggles naik 68% jadi $76,675,198!!!
 [2026-02-03 11:12:51] jual 250x Night Vision Goggles - Total: $9,584,399,750
     └─ Harga Night Vision Goggles turun 41% jadi $45,238,366!!!
+[2026-02-04 14:35:52] beli 1x Katana - Total: $990,000
+    └─ Harga Katana naik 28% jadi $1,267,200!!!
+[2026-02-08 23:30:29] jual 21x M16A4 - Total: $94,934,070
+    └─ Harga M16A4 turun 79% jadi $1,898,681!!!

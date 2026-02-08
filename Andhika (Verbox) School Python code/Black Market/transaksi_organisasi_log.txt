@@ -99,3 +99,29 @@
 [2026-02-03 11:21:23] Black Lotus membeli 1,070 unit Survival Kit total: $401,250,000
 [2026-02-03 11:21:55] BitRunners menjual 246 unit AK-47 total: $647,351,952
 [2026-02-03 12:05:49] NiteSec menjual 560 unit BMG-50 total: $27,300,000,000
+[2026-02-04 14:35:39] WorldGlitch 0x6C1 membeli 454 unit BMG-50 total: $44,265,000,000
+[2026-02-04 14:35:59] The Ruler membeli 169 unit AK-47 total: $889,451,225
+[2026-02-04 14:36:19] The Ruler membeli 317 unit Molotov total: $60,711,840
+[2026-02-04 14:36:39] Red Clover Clan menjual 1,170 unit RPG-7 total: $76,020,750,000
+[2026-02-04 14:36:59] NWO menjual 270 unit Claymore Mine total: $2,551,500,000
+[2026-02-04 14:37:19] The Dark Army membeli 762 unit RPG-7 total: $99,021,900,000
+[2026-02-04 14:37:39] Ishima membeli 1,179 unit First Aid Kit total: $453,915,000
+[2026-02-05 11:36:13] WorldGlitch 0x6C1 membeli 960 unit MedKit total: $246,720,000
+[2026-02-05 11:36:33] BackdoorBreacher Community menjual 79 unit Survival Kit total: $14,812,500
+[2026-02-05 11:36:53] WorldGlitch 0x6C1 membeli 734 unit Tactical Boots total: $183,500,000
+[2026-02-05 11:37:13] D.E.A.D, menjual 225 unit Adrenaline Syringe total: $62,617,950
+[2026-02-05 13:19:13] Volhaven Shadow membeli 893 unit MedKit total: $229,501,000
+[2026-02-05 13:19:33] Red Clover Clan menjual 413 unit HE Granade total: $72,688,000
+[2026-02-05 19:21:36] Black Cross Organisation menjual 548 unit MP5 total: $822,000,000
+[2026-02-05 19:26:10] Slum Snake menjual 190 unit Spy Drone total: $902,500,000
+[2026-02-06 23:52:42] D.E.A.D, membeli 948 unit Bandage total: $99,540,000
+[2026-02-08 22:07:50] BitRunners membeli 143 unit AK-47 total: $752,612,575
+[2026-02-08 22:10:19] FuncReactor membeli 1,124 unit Bandage total: $118,020,000
+[2026-02-08 22:10:39] Red Clover Clan membeli 1,146 unit Bandage total: $120,330,000
+[2026-02-08 22:10:59] NetBurners membeli 530 unit MP5 total: $1,590,000,000
+[2026-02-08 22:11:19] Shadow Clan menjual 767 unit Night Vision Goggles total: $17,348,913,361
+[2026-02-08 22:11:39] The Convenant membeli 100 unit BMG-50 total: $9,750,000,000
+[2026-02-08 22:11:59] D.E.A.D, membeli 785 unit Night Vision Goggles total: $35,512,117,310
+[2026-02-08 22:12:19] FuncReactor membeli 300 unit RPG-7 total: $38,985,000,000
+[2026-02-08 22:12:39] D.E.V. Clan menjual 656 unit Adrenaline Syringe total: $182,566,112
+[2026-02-08 22:12:59] Slum Snake menjual 177 unit M16A4 total: $800,158,590
