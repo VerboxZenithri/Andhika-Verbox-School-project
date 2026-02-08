@@ -57,7 +57,7 @@ python black_market_2d.py
 - Perhatikan aktivitas organisasi untuk memprediksi harga
 - Jual harga = 50% dari harga beli
 
-## 📁Contoh Struktur File JSON
+## 📁 Struktur File JSON
 
 ### data barang black market.json
 ```json

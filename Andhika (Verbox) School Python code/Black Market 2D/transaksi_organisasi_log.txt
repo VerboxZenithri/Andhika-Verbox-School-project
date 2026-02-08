@@ -124,3 +124,5 @@
 [2026-02-06 23:53:46] BitRunners menjual 1,116 unit EMP Device total: $18,184,410,900
 [2026-02-06 23:54:06] The Convenant menjual 796 unit Machete total: $149,250,000
 [2026-02-06 23:54:26] Black Cross Organisation membeli 580 unit BMG-50 total: $56,550,000,000
+[2026-02-08 21:23:48] Ghost Syndicate membeli 995 unit EMP Device total: $32,425,608,245
+[2026-02-08 21:24:08] The Convenant menjual 770 unit Long Sword total: $178,273,480

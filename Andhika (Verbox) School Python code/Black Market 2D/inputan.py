@@ -190,6 +190,73 @@ class Button:
             return self.rect.collidepoint(pos)
         return False
 
+# ========== KELAS SCROLLBAR ==========
+class Scrollbar:
+    def __init__(self, x, y, lebar, tinggi):
+        self.x = x
+        self.y = y
+        self.lebar = lebar
+        self.tinggi = tinggi
+        self.track_rect = pygame.Rect(x, y, lebar, tinggi)
+        self.thumb_rect = pygame.Rect(x, y, lebar, 50)
+        self.dragging = False
+        self.drag_offset = 0
+    
+    def update(self, total_items, visible_items, scroll_offset, item_height=80):
+        if total_items <= visible_items:
+            return scroll_offset
+        
+        # Calculate thumb size and position
+        thumb_ratio = visible_items / total_items
+        self.thumb_rect.height = max(30, int(self.tinggi * thumb_ratio))
+        
+        max_scroll = (total_items - visible_items) * item_height
+        if max_scroll > 0:
+            scroll_ratio = scroll_offset / max_scroll
+            max_thumb_y = self.y + self.tinggi - self.thumb_rect.height
+            self.thumb_rect.y = int(self.y + scroll_ratio * (self.tinggi - self.thumb_rect.height))
+        
+        return scroll_offset
+    
+    def handle_event(self, event, pos, total_items, visible_items, scroll_offset, item_height=80):
+        if total_items <= visible_items:
+            return scroll_offset
+        
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.thumb_rect.collidepoint(pos):
+                self.dragging = True
+                self.drag_offset = pos[1] - self.thumb_rect.y
+            elif self.track_rect.collidepoint(pos):
+                # Click on track - jump to position
+                rel_y = pos[1] - self.y
+                scroll_ratio = rel_y / self.tinggi
+                max_scroll = (total_items - visible_items) * item_height
+                scroll_offset = int(scroll_ratio * max_scroll)
+                scroll_offset = max(0, min(max_scroll, scroll_offset))
+        
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            self.dragging = False
+        
+        elif event.type == pygame.MOUSEMOTION and self.dragging:
+            new_y = pos[1] - self.drag_offset
+            new_y = max(self.y, min(new_y, self.y + self.tinggi - self.thumb_rect.height))
+            
+            scroll_ratio = (new_y - self.y) / (self.tinggi - self.thumb_rect.height)
+            max_scroll = (total_items - visible_items) * item_height
+            scroll_offset = int(scroll_ratio * max_scroll)
+            scroll_offset = max(0, min(max_scroll, scroll_offset))
+        
+        return scroll_offset
+    
+    def draw(self, surface):
+        # Draw track
+        pygame.draw.rect(surface, (40, 40, 40), self.track_rect, border_radius=5)
+        pygame.draw.rect(surface, HIJAU_TUA, self.track_rect, 1, border_radius=5)
+        
+        # Draw thumb
+        pygame.draw.rect(surface, HIJAU_TUA, self.thumb_rect, border_radius=5)
+        pygame.draw.rect(surface, HIJAU_NEON, self.thumb_rect, 2, border_radius=5)
+
 # ========== FUNGSI RENDER TEKS ==========
 def render_teks(teks, font, warna, x, y, center=False):
     surf = font.render(teks, True, warna)
@@ -288,6 +355,7 @@ def scene_beli():
     
     btn_kembali = Button(50, TINGGI - 80, 150, 50, "Kembali", MERAH_GELAP, MERAH)
     btn_beli = Button(LEBAR - 200, TINGGI - 80, 150, 50, "Beli", HIJAU_TUA, HIJAU)
+    scrollbar = Scrollbar(LEBAR - 70, 120, 20, TINGGI - 240)
     
     while True:
         pos_mouse = pygame.mouse.get_pos()
@@ -297,6 +365,10 @@ def scene_beli():
                 return "keluar"
             if btn_kembali.is_clicked(pos_mouse, event):
                 return "menu"
+            
+            # Handle scrollbar
+            visible_items = (TINGGI - 200) // 80
+            scroll_offset = scrollbar.handle_event(event, pos_mouse, len(stock), visible_items, scroll_offset)
             
             if btn_beli.is_clicked(pos_mouse, event) and selected_item is not None and jumlah_input.isdigit():
                 jumlah = int(jumlah_input)
@@ -324,10 +396,10 @@ def scene_beli():
                 if event.button == 4:
                     scroll_offset = max(0, scroll_offset - 30)
                 elif event.button == 5:
-                    scroll_offset = min(len(stock) * 80, scroll_offset + 30)
+                    scroll_offset = min(max(0, len(stock) * 80 - (TINGGI - 200)), scroll_offset + 30)
                 
                 for i in range(len(stock)):
-                    item_rect = pygame.Rect(50, 150 + i * 80 - scroll_offset, LEBAR - 100, 70)
+                    item_rect = pygame.Rect(50, 150 + i * 80 - scroll_offset, LEBAR - 120, 70)
                     if item_rect.collidepoint(pos_mouse) and item_rect.top > 100 and item_rect.bottom < TINGGI - 100:
                         selected_item = i
             
@@ -338,6 +410,10 @@ def scene_beli():
                     elif event.unicode.isdigit():
                         jumlah_input += event.unicode
         
+        # Update scrollbar position
+        visible_items = (TINGGI - 200) // 80
+        scroll_offset = scrollbar.update(len(stock), visible_items, scroll_offset)
+        
         layar.fill(HITAM)
         
         # Border
@@ -345,7 +421,7 @@ def scene_beli():
         
         render_teks("BELI BARANG ILLEGAL", font_besar, HIJAU_NEON, LEBAR//2, 50, center=True)
         pygame.draw.line(layar, HIJAU, (100, 90), (LEBAR-100, 90), 2)
-        render_teks(f"Saldo: ${saldo:,}", font_sedang, KUNING, LEBAR - 200, 50)
+        render_teks(f"Saldo: ${saldo:,}", font_sedang, KUNING, LEBAR - 220, 50)
         
         # List barang
         for i, produk in enumerate(stock):
@@ -354,11 +430,15 @@ def scene_beli():
                 continue
             
             warna_bg = HIJAU_TUA if i == selected_item else (30, 30, 30)
-            pygame.draw.rect(layar, warna_bg, (50, y_pos, LEBAR - 100, 70), border_radius=8)
-            pygame.draw.rect(layar, HIJAU_NEON if i == selected_item else HIJAU_TUA, (50, y_pos, LEBAR - 100, 70), 2, border_radius=8)
+            pygame.draw.rect(layar, warna_bg, (50, y_pos, LEBAR - 120, 70), border_radius=8)
+            pygame.draw.rect(layar, HIJAU_NEON if i == selected_item else HIJAU_TUA, (50, y_pos, LEBAR - 120, 70), 2, border_radius=8)
             
             render_teks(f"{produk['nama']}", font_sedang, PUTIH, 70, y_pos + 10)
             render_teks(f"Stok: {produk['stok']:,} | Harga: ${produk['harga']:,}", font_kecil, HIJAU, 70, y_pos + 45)
+        
+        # Draw scrollbar
+        if len(stock) > visible_items:
+            scrollbar.draw(layar)
         
         # Input jumlah
         if selected_item is not None:
@@ -392,6 +472,7 @@ def scene_jual():
     
     btn_kembali = Button(50, TINGGI - 80, 150, 50, "Kembali", MERAH_GELAP, MERAH)
     btn_jual = Button(LEBAR - 200, TINGGI - 80, 150, 50, "Jual", HIJAU_TUA, HIJAU)
+    scrollbar = Scrollbar(LEBAR - 70, 120, 20, TINGGI - 240)
     
     while True:
         pos_mouse = pygame.mouse.get_pos()
@@ -401,6 +482,10 @@ def scene_jual():
                 return "keluar"
             if btn_kembali.is_clicked(pos_mouse, event):
                 return "menu"
+            
+            # Handle scrollbar
+            visible_items = (TINGGI - 200) // 80
+            scroll_offset = scrollbar.handle_event(event, pos_mouse, len(stock), visible_items, scroll_offset)
             
             if btn_jual.is_clicked(pos_mouse, event) and selected_item is not None and jumlah_input.isdigit():
                 jumlah = int(jumlah_input)
@@ -419,10 +504,10 @@ def scene_jual():
                 if event.button == 4:
                     scroll_offset = max(0, scroll_offset - 30)
                 elif event.button == 5:
-                    scroll_offset = min(len(stock) * 80, scroll_offset + 30)
+                    scroll_offset = min(max(0, len(stock) * 80 - (TINGGI - 200)), scroll_offset + 30)
                 
                 for i in range(len(stock)):
-                    item_rect = pygame.Rect(50, 150 + i * 80 - scroll_offset, LEBAR - 100, 70)
+                    item_rect = pygame.Rect(50, 150 + i * 80 - scroll_offset, LEBAR - 120, 70)
                     if item_rect.collidepoint(pos_mouse) and item_rect.top > 100 and item_rect.bottom < TINGGI - 100:
                         selected_item = i
             
@@ -433,6 +518,10 @@ def scene_jual():
                     elif event.unicode.isdigit():
                         jumlah_input += event.unicode
         
+        # Update scrollbar position
+        visible_items = (TINGGI - 200) // 80
+        scroll_offset = scrollbar.update(len(stock), visible_items, scroll_offset)
+        
         layar.fill(HITAM)
         
         # Border
@@ -440,7 +529,7 @@ def scene_jual():
         
         render_teks("JUAL BARANG ILLEGAL", font_besar, HIJAU_NEON, LEBAR//2, 50, center=True)
         pygame.draw.line(layar, HIJAU, (100, 90), (LEBAR-100, 90), 2)
-        render_teks(f"Saldo: ${saldo:,}", font_sedang, KUNING, LEBAR - 200, 50)
+        render_teks(f"Saldo: ${saldo:,}", font_sedang, KUNING, LEBAR - 220, 50)
         
         for i, produk in enumerate(stock):
             y_pos = 150 + i * 80 - scroll_offset
@@ -448,11 +537,15 @@ def scene_jual():
                 continue
             
             warna_bg = HIJAU_TUA if i == selected_item else (30, 30, 30)
-            pygame.draw.rect(layar, warna_bg, (50, y_pos, LEBAR - 100, 70), border_radius=8)
-            pygame.draw.rect(layar, HIJAU_NEON if i == selected_item else HIJAU_TUA, (50, y_pos, LEBAR - 100, 70), 2, border_radius=8)
+            pygame.draw.rect(layar, warna_bg, (50, y_pos, LEBAR - 120, 70), border_radius=8)
+            pygame.draw.rect(layar, HIJAU_NEON if i == selected_item else HIJAU_TUA, (50, y_pos, LEBAR - 120, 70), 2, border_radius=8)
             
             render_teks(f"{produk['nama']}", font_sedang, PUTIH, 70, y_pos + 10)
             render_teks(f"Harga jual: ${produk['harga']//2:,} (50% dari harga pasar)", font_kecil, KUNING, 70, y_pos + 45)
+        
+        # Draw scrollbar
+        if len(stock) > visible_items:
+            scrollbar.draw(layar)
         
         if selected_item is not None:
             input_rect = pygame.Rect(LEBAR//2 - 150, TINGGI - 150, 300, 40)
@@ -476,6 +569,7 @@ def scene_jual():
 def scene_stock():
     scroll_offset = 0
     btn_kembali = Button(LEBAR//2 - 75, TINGGI - 80, 150, 50, "Kembali", MERAH_GELAP, MERAH)
+    scrollbar = Scrollbar(LEBAR - 70, 140, 20, TINGGI - 250)
     
     while True:
         pos_mouse = pygame.mouse.get_pos()
@@ -485,11 +579,20 @@ def scene_stock():
                 return "keluar"
             if btn_kembali.is_clicked(pos_mouse, event):
                 return "menu"
+            
+            # Handle scrollbar
+            visible_items = (TINGGI - 250) // 80
+            scroll_offset = scrollbar.handle_event(event, pos_mouse, len(stock), visible_items, scroll_offset)
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 4:
                     scroll_offset = max(0, scroll_offset - 30)
                 elif event.button == 5:
-                    scroll_offset = min(len(stock) * 80, scroll_offset + 30)
+                    scroll_offset = min(max(0, len(stock) * 80 - (TINGGI - 250)), scroll_offset + 30)
+        
+        # Update scrollbar position
+        visible_items = (TINGGI - 250) // 80
+        scroll_offset = scrollbar.update(len(stock), visible_items, scroll_offset)
         
         layar.fill(HITAM)
         
@@ -505,11 +608,15 @@ def scene_stock():
             if y_pos < 140 or y_pos > TINGGI - 100:
                 continue
             
-            pygame.draw.rect(layar, (30, 30, 30), (50, y_pos, LEBAR - 100, 70), border_radius=8)
-            pygame.draw.rect(layar, HIJAU_TUA, (50, y_pos, LEBAR - 100, 70), 2, border_radius=8)
+            pygame.draw.rect(layar, (30, 30, 30), (50, y_pos, LEBAR - 120, 70), border_radius=8)
+            pygame.draw.rect(layar, HIJAU_TUA, (50, y_pos, LEBAR - 120, 70), 2, border_radius=8)
             
             render_teks(f"{i+1}. {produk['nama']}", font_sedang, PUTIH, 70, y_pos + 10)
             render_teks(f"Stok: {produk['stok']:,} unit | Harga: ${produk['harga']:,}", font_kecil, HIJAU, 70, y_pos + 45)
+        
+        # Draw scrollbar
+        if len(stock) > visible_items:
+            scrollbar.draw(layar)
         
         btn_kembali.check_hover(pos_mouse)
         btn_kembali.draw(layar)
@@ -521,6 +628,7 @@ def scene_stock():
 def scene_organisasi():
     scroll_offset = 0
     btn_kembali = Button(LEBAR//2 - 75, TINGGI - 80, 150, 50, "Kembali", MERAH_GELAP, MERAH)
+    scrollbar = Scrollbar(LEBAR - 70, 130, 20, TINGGI - 240)
     
     while True:
         pos_mouse = pygame.mouse.get_pos()
@@ -530,11 +638,20 @@ def scene_organisasi():
                 return "keluar"
             if btn_kembali.is_clicked(pos_mouse, event):
                 return "menu"
+            
+            # Handle scrollbar (90 is item height for organisasi)
+            visible_items = (TINGGI - 240) // 90
+            scroll_offset = scrollbar.handle_event(event, pos_mouse, len(organisasi), visible_items, scroll_offset, item_height=90)
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 4:
                     scroll_offset = max(0, scroll_offset - 30)
                 elif event.button == 5:
-                    scroll_offset = min(len(organisasi) * 90, scroll_offset + 30)
+                    scroll_offset = min(max(0, len(organisasi) * 90 - (TINGGI - 240)), scroll_offset + 30)
+        
+        # Update scrollbar position
+        visible_items = (TINGGI - 240) // 90
+        scroll_offset = scrollbar.update(len(organisasi), visible_items, scroll_offset, item_height=90)
         
         layar.fill(HITAM)
         
@@ -550,8 +667,8 @@ def scene_organisasi():
             if y_pos < 130 or y_pos > TINGGI - 100:
                 continue
             
-            pygame.draw.rect(layar, (30, 30, 30), (50, y_pos, LEBAR - 100, 80), border_radius=8)
-            pygame.draw.rect(layar, HIJAU_TUA, (50, y_pos, LEBAR - 100, 80), 2, border_radius=8)
+            pygame.draw.rect(layar, (30, 30, 30), (50, y_pos, LEBAR - 120, 80), border_radius=8)
+            pygame.draw.rect(layar, HIJAU_TUA, (50, y_pos, LEBAR - 120, 80), 2, border_radius=8)
             
             render_teks(f"{i+1}. {org}", font_sedang, PUTIH, 70, y_pos + 10)
             
@@ -563,6 +680,10 @@ def scene_organisasi():
             else:
                 render_teks("Belum ada aktivitas terbaru", font_kecil, ABU, 70, y_pos + 50)
         
+        # Draw scrollbar
+        if len(organisasi) > visible_items:
+            scrollbar.draw(layar)
+        
         btn_kembali.check_hover(pos_mouse)
         btn_kembali.draw(layar)
         
@@ -573,6 +694,7 @@ def scene_organisasi():
 def scene_riwayat():
     btn_kembali = Button(LEBAR//2 - 75, TINGGI - 80, 150, 50, "Kembali", MERAH_GELAP, MERAH)
     scroll_offset = 0
+    scrollbar = Scrollbar(LEBAR - 70, 110, 20, TINGGI - 220)
     
     log_path = os.path.join(BASE_DIR, "transaksi_log.txt")
     logs = []
@@ -588,11 +710,20 @@ def scene_riwayat():
                 return "keluar"
             if btn_kembali.is_clicked(pos_mouse, event):
                 return "menu"
+            
+            # Handle scrollbar (25 is item height for logs)
+            visible_items = (TINGGI - 220) // 25
+            scroll_offset = scrollbar.handle_event(event, pos_mouse, len(logs), visible_items, scroll_offset, item_height=25)
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 4:
                     scroll_offset = max(0, scroll_offset - 20)
                 elif event.button == 5:
-                    scroll_offset = min(len(logs) * 25, scroll_offset + 20)
+                    scroll_offset = min(max(0, len(logs) * 25 - (TINGGI - 220)), scroll_offset + 20)
+        
+        # Update scrollbar position
+        visible_items = (TINGGI - 220) // 25
+        scroll_offset = scrollbar.update(len(logs), visible_items, scroll_offset, item_height=25)
         
         layar.fill(HITAM)
         
@@ -604,7 +735,7 @@ def scene_riwayat():
         pygame.draw.line(layar, HIJAU, (100, 90), (LEBAR-100, 90), 2)
         
         # Content box
-        content_rect = pygame.Rect(50, 110, LEBAR-100, TINGGI-220)
+        content_rect = pygame.Rect(50, 110, LEBAR-120, TINGGI-220)
         pygame.draw.rect(layar, (20, 20, 20), content_rect, border_radius=10)
         pygame.draw.rect(layar, HIJAU_TUA, content_rect, 2, border_radius=10)
         
@@ -627,6 +758,10 @@ def scene_riwayat():
             render_teks("Belum ada transaksi tercatat.", font_sedang, ABU, LEBAR//2, TINGGI//2, center=True)
             render_teks("Mulai berdagang untuk melihat riwayat!", font_kecil, HIJAU_TUA, LEBAR//2, TINGGI//2 + 40, center=True)
         
+        # Draw scrollbar
+        if len(logs) > visible_items:
+            scrollbar.draw(layar)
+        
         btn_kembali.check_hover(pos_mouse)
         btn_kembali.draw(layar)
         
@@ -637,6 +772,7 @@ def scene_riwayat():
 def scene_riwayat_organisasi():
     btn_kembali = Button(LEBAR//2 - 75, TINGGI - 80, 150, 50, "Kembali", MERAH_GELAP, MERAH)
     scroll_offset = 0
+    scrollbar = Scrollbar(LEBAR - 70, 120, 20, TINGGI - 230)
     
     logs = baca_log_organisasi()
     
@@ -648,11 +784,20 @@ def scene_riwayat_organisasi():
                 return "keluar"
             if btn_kembali.is_clicked(pos_mouse, event):
                 return "menu"
+            
+            # Handle scrollbar (25 is item height for logs)
+            visible_items = (TINGGI - 230) // 25
+            scroll_offset = scrollbar.handle_event(event, pos_mouse, len(logs), visible_items, scroll_offset, item_height=25)
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 4:
                     scroll_offset = max(0, scroll_offset - 20)
                 elif event.button == 5:
-                    scroll_offset = min(len(logs) * 25, scroll_offset + 20)
+                    scroll_offset = min(max(0, len(logs) * 25 - (TINGGI - 230)), scroll_offset + 20)
+        
+        # Update scrollbar position
+        visible_items = (TINGGI - 230) // 25
+        scroll_offset = scrollbar.update(len(logs), visible_items, scroll_offset, item_height=25)
         
         layar.fill(HITAM)
         
@@ -667,7 +812,7 @@ def scene_riwayat_organisasi():
         render_teks("Aktivitas Underground Market", font_kecil, HIJAU, LEBAR//2, 100, center=True)
         
         # Content box
-        content_rect = pygame.Rect(50, 120, LEBAR-100, TINGGI-230)
+        content_rect = pygame.Rect(50, 120, LEBAR-120, TINGGI-230)
         pygame.draw.rect(layar, (20, 20, 20), content_rect, border_radius=10)
         pygame.draw.rect(layar, HIJAU_TUA, content_rect, 2, border_radius=10)
         
@@ -692,6 +837,10 @@ def scene_riwayat_organisasi():
         else:
             render_teks("Belum ada aktivitas organisasi tercatat.", font_sedang, ABU, LEBAR//2, TINGGI//2, center=True)
             render_teks("Tunggu beberapa saat untuk melihat pergerakan market!", font_kecil, HIJAU_TUA, LEBAR//2, TINGGI//2 + 40, center=True)
+        
+        # Draw scrollbar
+        if len(logs) > visible_items:
+            scrollbar.draw(layar)
         
         btn_kembali.check_hover(pos_mouse)
         btn_kembali.draw(layar)
