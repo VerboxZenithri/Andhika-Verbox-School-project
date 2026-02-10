@@ -3,20 +3,20 @@ import sys
 import winsound
 
 def nuke(n):  #Nah Ini Bomb Nya
-    a = []
+    a=[]
     for i in range(255):
-        if n > 1:
+        if n>1:
             a.append(nuke(n-1))
         else:
             a.append(i)
     return a
 
 #Effect Arming Nuclear+Loading Bar
-RED = "\033[31m"
-GRN = "\033[32m"
-YLW = "\033[33m"
-CYN = "\033[36m"
-RST = "\033[0m"
+RED="\033[31m"
+GRN="\033[32m"
+YLW="\033[33m"
+CYN="\033[36m"
+RST="\033[0m"
 spinner=["|","/","-","\\"]
 bar_len=90
 total_steps=110
@@ -30,7 +30,7 @@ for i in range(total_steps+1):
     color=GRN if i<70 else YLW if i<90 else RED
     sys.stdout.write(f"\r{color}[{bar}]{i:3d}% {spin}{RST}")
     sys.stdout.flush()
-    if i %25==0:
+    if i %17==0:
         winsound.Beep(1200,100)
     time.sleep(0.06)
 
@@ -41,7 +41,7 @@ for t in range(15,0,-1):
     sys.stdout.write(YLW+f"\r💣 T-{t}..."+RST)
     sys.stdout.flush()
     winsound.Beep(800, 300)
-    time.sleep(1)
+    time.sleep(0.5)
 
 print(RED+"\n\nYES RICKO, KABOOM!\n")
 winsound.Beep(2000,1500)
