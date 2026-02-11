@@ -1,8 +1,12 @@
 import os
+import json
+from datetime import datetime
 
-# Fungsi untuk membersihkan layar terminal
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+FILE_USER="data_user.json"
+FILE_KOPI="data_kopi.json"
 
 class Coffee:
     def __init__(self,nama,harga,rasa,texture,warna,kekentalan,stok):
@@ -14,70 +18,200 @@ class Coffee:
         self.kekentalan=kekentalan
         self.stok=stok
     def tampilkan_ingfo(self):
-        print(f"Nama: {self.nama}| Harga: Rp{self.harga}| Stok: {self.stok}")
+        print(f"Nama: {self.nama}| Harga: Rp{self.harga:,}| Stok: {self.stok}")
         print(f"Detail: Rasa {self.rasa}, Tekstur {self.texture}, Warna {self.warna}, {self.kekentalan}\n")
+    def to_dict(self):
+        return {
+            "nama":self.nama,
+            "harga":self.harga,
+            "rasa":self.rasa,
+            "texture":self.texture,
+            "warna":self.warna,
+            "kekentalan":self.kekentalan,
+            "stok":self.stok
+        }
 
-daftar_kopi = [
-    Coffee("Cappucino",12000,"Nikmat","Sedang","Hitam Kecoklatan","Cair", 50),
-    Coffee("Latte Art",20000,"Manis","Halus","Coklat Keputihan","Cair",210),
-    Coffee("Dirty Espresso",8000,"Pahit","Kasar","Hytam Legam","Kental",37),
-    Coffee("Kopi STMJ",10000,"Nikmat","halus","Putih Kecoklatan","Kental",135),
-    Coffee("Civet Coffee (luwak)",45000,"Mantab","Halus","Coklat","Kental",15),
-    Coffee("Americano",9000,"Lumayan pahit","Sedang","Coklat kehitaman","Sedang",75)
-]
+class User:
+    def __init__(self,nama,saldo=1000000):
+        self.nama=nama
+        self.saldo=saldo
+        self.riwayat=[]
+    def tambah_saldo(self,jumlah):
+        self.saldo+=jumlah
+        self.riwayat.append({
+            "waktu":datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "tipe":"Top Up",
+            "jumlah":jumlah,
+            "saldo_akhir":self.saldo
+        })
+        print(f"\n[BERHASIL] Top up Rp{jumlah:,}")
+        print(f"Saldo sekarang: Rp{self.saldo:,}")
+    def beli(self,nama_item,harga,jumlah):
+        total=harga*jumlah
+        if self.saldo>=total:
+            self.saldo-=total
+            self.riwayat.append({
+                "waktu":datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "tipe":"Pembelian",
+                "item":nama_item,
+                "jumlah":jumlah,
+                "harga":harga,
+                "total":total,
+                "saldo_akhir":self.saldo
+            })
+            return True
+        return False
+    def tampilkan_riwayat(self):
+        print(f"\n===RIWAYAT TRANSAKSI {self.nama.upper()}===")
+        if not self.riwayat:
+            print("Belum ada transaksi.")
+        else:
+            for i,transaksi in enumerate(self.riwayat,1):
+                print(f"\n{i}. [{transaksi['waktu']}]")
+                if transaksi['tipe']=="Top Up":
+                    print(f"   Top Up: +Rp{transaksi['jumlah']:,}")
+                else:
+                    print(f"   Beli: {transaksi['item']} x{transaksi['jumlah']}")
+                    print(f"   Harga: Rp{transaksi['harga']:,} | Total: -Rp{transaksi['total']:,}")
+                print(f"   Saldo Akhir: Rp{transaksi['saldo_akhir']:,}")
+    def to_dict(self):
+        return {
+            "nama":self.nama,
+            "saldo":self.saldo,
+            "riwayat":self.riwayat
+        }
 
-def tampilkan_stock():
+def simpan_kopi(daftar_kopi):
+    with open(FILE_KOPI,'w') as f:
+        json.dump([kopi.to_dict() for kopi in daftar_kopi],f,indent=2)
+
+def muat_kopi():
+    if os.path.exists(FILE_KOPI):
+        with open(FILE_KOPI,'r') as f:
+            data=json.load(f)
+            return [Coffee(**item) for item in data]
+    return [
+        Coffee("Cappucino",12000,"Nikmat","Sedang","Hitam Kecoklatan","Cair",50),
+        Coffee("Latte Art",20000,"Manis","Halus","Coklat Keputihan","Cair",210),
+        Coffee("Dirty Espresso",8000,"Pahit","Kasar","Hytam Legam","Kental",37),
+        Coffee("Kopi STMJ",10000,"Nikmat","halus","Putih Kecoklatan","Kental",135),
+        Coffee("Civet Coffee (luwak)",45000,"Mantab","Halus","Coklat","Kental",15),
+        Coffee("Americano",9000,"Lumayan pahit","Sedang","Coklat kehitaman","Sedang",75)
+    ]
+
+def simpan_user(user):
+    data_users={}
+    if os.path.exists(FILE_USER):
+        with open(FILE_USER,'r') as f:
+            data_users=json.load(f)
+    data_users[user.nama]=user.to_dict()
+    with open(FILE_USER,'w') as f:
+        json.dump(data_users,f,indent=2)
+
+def muat_user(nama):
+    if os.path.exists(FILE_USER):
+        with open(FILE_USER,'r') as f:
+            data_users=json.load(f)
+            if nama in data_users:
+                data=data_users[nama]
+                user=User(data['nama'],data['saldo'])
+                user.riwayat=data['riwayat']
+                return user
+    return User(nama)
+
+def tampilkan_stock(daftar_kopi):
     print("===DAFTAR STOCK KOPI SAAT INI===")
     if not daftar_kopi:
         print("kosong melompong wok...")
     else:
-        for i, kopi in enumerate(daftar_kopi,1):
+        for i,kopi in enumerate(daftar_kopi,1):
             print(f"{i}.",end="")
             kopi.tampilkan_ingfo()
 
-def beli_kopi():
-    tampilkan_stock()
+def beli_kopi(user,daftar_kopi):
+    print(f"Saldo Anda: Rp{user.saldo:,}\n")
+    tampilkan_stock(daftar_kopi)
     if not daftar_kopi:return
     try:
-        pilihan=int(input("Pilih nomor kopi yang ingin dibeli:"))- 1
+        pilihan=int(input("Pilih nomor kopi yang ingin dibeli:"))-1
         if 0<=pilihan<len(daftar_kopi):
-            jumlah = int(input(f"Mau beli berapa {daftar_kopi[pilihan].nama}? "))
-            if daftar_kopi[pilihan].stok>=jumlah:
-                daftar_kopi[pilihan].stok-=jumlah
-                print(f"\n[BERHASIL] Membeli {jumlah} {daftar_kopi[pilihan].nama}")
-                print("☕ Selamat menikmati! ☕")
+            kopi_pilihan=daftar_kopi[pilihan]
+            jumlah=int(input(f"Mau beli berapa {kopi_pilihan.nama}? "))
+            total=kopi_pilihan.harga*jumlah
+            if kopi_pilihan.stok>=jumlah:
+                if user.beli(kopi_pilihan.nama,kopi_pilihan.harga,jumlah):
+                    kopi_pilihan.stok-=jumlah
+                    simpan_user(user)
+                    simpan_kopi(daftar_kopi)
+                    print(f"\n[BERHASIL] Membeli {jumlah} {kopi_pilihan.nama}")
+                    print(f"Total: Rp{total:,}")
+                    print(f"Saldo tersisa: Rp{user.saldo:,}")
+                    print("☕ Selamat menikmati! ☕")
+                else:
+                    print(f"\n[X] Saldo tidak cukup! Butuh Rp{total:,}, saldo Anda Rp{user.saldo:,}")
             else:
-                print("\n[X] Stock gakcukup!")
+                print("\n[X] Stock gak cukup!")
         else:
             print("[!] Nomor menu tidak ada.")
     except ValueError:
         print("[!] Masukkan angka yang valid!")
 
+def top_up(user):
+    print(f"Saldo sekarang: Rp{user.saldo:,}")
+    try:
+        jumlah=int(input("\nMasukkan jumlah top up: Rp"))
+        if jumlah>0:
+            user.tambah_saldo(jumlah)
+            simpan_user(user)
+        else:
+            print("[!] Jumlah harus lebih dari 0!")
+    except ValueError:
+        print("[!] Masukkan angka yang valid!")
+
 def menu():
+    clear()
+    nama_user=input("Masukkan nama Anda: ")
+    user=muat_user(nama_user)
+    daftar_kopi=muat_kopi()
+    print(f"\nSelamat datang kembali, {user.nama}!" if os.path.exists(FILE_USER) and nama_user in json.load(open(FILE_USER)) else f"\nPengguna baru terdaftar: {user.nama}!")
+    input("Tekan Enter untuk lanjut...")
     while True:
         clear()
-        print("===WELCOME TO COFFEE SHOP===")
+        print(f"===WELCOME TO COFFEE SHOP, {user.nama.upper()}!===")
+        print(f"Saldo Anda: Rp{user.saldo:,}\n")
         print("1. Lihat stock kopi")
         print("2. Beli kopi")
-        print("3. Keluar dari toko")
-        
-        pilihan=input("\nAnda mau apa? (1/2/3):")
-        
+        print("3. Top up saldo")
+        print("4. Lihat riwayat transaksi")
+        print("5. Keluar dari toko")
+        pilihan=input("\nAnda mau apa? (1/2/3/4/5):")
         if pilihan=="1":
             clear()
-            tampilkan_stock()
+            tampilkan_stock(daftar_kopi)
             input("Tekan Enter untuk kembali...")
         elif pilihan=="2":
             clear()
-            beli_kopi()
+            beli_kopi(user,daftar_kopi)
             input("\nTekan Enter untuk kembali...")
         elif pilihan=="3":
             clear()
-            print("Makasih loh ya sudah berkunjung ke toko gweh! ☕✌︎")
+            top_up(user)
+            input("\nTekan Enter untuk kembali...")
+        elif pilihan=="4":
+            clear()
+            user.tampilkan_riwayat()
+            input("\nTekan Enter untuk kembali...")
+        elif pilihan=="5":
+            clear()
+            simpan_user(user)
+            simpan_kopi(daftar_kopi)
+            print(f"Makasih {user.nama} loh ya sudah berkunjung ke toko gweh! ☕✌︎")
+            print(f"Saldo akhir Anda: Rp{user.saldo:,}")
             break
         else:
             print("[X] Pilihan tidak valid!")
             input("\nTekan Enter untuk mencoba lagi...")
+
 menu()
 
 '''
