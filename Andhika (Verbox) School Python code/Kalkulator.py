@@ -368,7 +368,7 @@ def main():
         elif pilih=='12': matrix_2x2()
         elif pilih=='0':
             clear()
-            print(f"{BG}Terima kasih telah menggunakan kalkulator!{R}")
+            print(f"{BG}Terima kasih telah menggunakan kalkulator saya!{R}")
             break
         else: input(f"{RD}[ERROR] Pilihan tidak valid! Tekan Enter...{R}")
 
