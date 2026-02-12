@@ -1,0 +1,219 @@
+# PANDUAN INSTALASI DAN PENGGUNAAN
+# Aplikasi Absensi Sekolah
+
+## CARA INSTALASI
+
+### Untuk Windows:
+
+1. Pastikan Python sudah terinstall (minimal Python 3.8)
+   - Download Python dari: https://www.python.org/downloads/
+   - Centang "Add Python to PATH" saat instalasi
+
+2. Extract folder aplikasi ke lokasi yang diinginkan
+
+3. Buka Command Prompt (CMD) atau PowerShell
+
+4. Masuk ke folder aplikasi:
+   ```
+   cd path\ke\folder\aplikasi
+   ```
+
+5. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+6. Jalankan aplikasi:
+   - Double click file `run.bat`, atau
+   - Ketik di CMD: `python app.py`
+
+7. Buka browser dan akses: http://localhost:5000
+
+### Untuk Linux/Mac:
+
+1. Pastikan Python3 sudah terinstall
+
+2. Extract folder aplikasi
+
+3. Buka Terminal
+
+4. Masuk ke folder aplikasi:
+   ```
+   cd /path/to/aplikasi
+   ```
+
+5. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+   
+   Atau jika menggunakan pip3:
+   ```
+   pip3 install -r requirements.txt
+   ```
+
+6. Jalankan aplikasi:
+   ```
+   bash run.sh
+   ```
+   
+   Atau:
+   ```
+   python3 app.py
+   ```
+
+7. Buka browser dan akses: http://localhost:5000
+
+## AKUN DEFAULT
+
+### Admin
+- Username: admin
+- Password: admin123
+- Akses: Kelola kelas, kelola user, lihat semua laporan
+
+### Guru
+- Username: guru1
+- Password: guru123
+- Akses: Isi absensi, lihat laporan sendiri
+
+## CARA PENGGUNAAN
+
+### ADMIN
+
+1. LOGIN sebagai admin
+
+2. KELOLA KELAS:
+   - Klik menu "Kelola Kelas"
+   - Klik tombol "Tambah Kelas Baru"
+   - Masukkan nama kelas (contoh: Kelas 7A)
+   - Masukkan daftar siswa (satu nama per baris)
+   - Klik "Simpan Kelas"
+
+3. KELOLA USER (GURU):
+   - Klik menu "Kelola User"
+   - Klik tombol "Tambah User Baru"
+   - Isi data guru:
+     * Username (contoh: guru2)
+     * Nama lengkap (contoh: Bu Siti)
+     * Password
+     * Pilih role: Guru atau Admin
+   - Klik "Simpan User"
+
+4. LIHAT LAPORAN:
+   - Klik menu "Laporan"
+   - Lihat riwayat semua absensi
+   - Klik "Detail" untuk melihat detail per absensi
+   - Bisa di-print langsung
+
+### GURU
+
+1. LOGIN sebagai guru
+
+2. ISI ABSENSI:
+   - Pilih kelas yang akan diabsen
+   - Klik "Isi Absensi"
+   - Pilih status untuk setiap siswa:
+     * ✅ Hadir
+     * 🤒 Sakit
+     * 📝 Izin
+     * ❌ Alpa
+   - Gunakan tombol "Aksi Cepat" untuk mengisi semua siswa sekaligus
+   - Klik "Simpan Absensi"
+
+3. LIHAT LAPORAN:
+   - Klik menu "Laporan"
+   - Lihat riwayat absensi yang sudah diinput
+   - Klik "Detail" untuk melihat detail
+   - Bisa di-print
+
+## FITUR APLIKASI
+
+✅ Login dengan autentikasi
+✅ Role-based access (Admin & Guru)
+✅ Kelola kelas dan siswa
+✅ Kelola user (guru dan admin)
+✅ Isi absensi dengan 4 status (Hadir, Sakit, Izin, Alpa)
+✅ Aksi cepat untuk mengisi absensi semua siswa
+✅ Laporan absensi dengan statistik
+✅ Detail laporan per kelas
+✅ Print laporan
+✅ Dashboard dengan statistik
+✅ Responsive design
+
+## TROUBLESHOOTING
+
+### Error: Module 'flask' not found
+Solusi: Install Flask dengan perintah:
+```
+pip install Flask
+```
+
+### Error: Port 5000 already in use
+Solusi: 
+1. Tutup aplikasi lain yang menggunakan port 5000
+2. Atau edit file app.py, ganti port 5000 dengan port lain (misal 8000)
+
+### Lupa password
+Solusi:
+1. Hapus folder `data`
+2. Restart aplikasi
+3. Akun default akan dibuat ulang
+
+### Aplikasi tidak mau jalan
+Solusi:
+1. Pastikan Python versi 3.8 atau lebih baru
+2. Pastikan Flask sudah terinstall
+3. Cek error message di terminal/CMD
+4. Restart aplikasi
+
+## STRUKTUR FILE
+
+```
+aplikasi-absensi/
+│
+├── app.py                    # File utama aplikasi
+├── requirements.txt          # Dependencies Python
+├── README.md                 # Dokumentasi
+├── INSTALL.txt              # Panduan instalasi
+├── run.sh                   # Script untuk Linux/Mac
+├── run.bat                  # Script untuk Windows
+│
+├── templates/               # Folder template HTML
+│   ├── base.html
+│   ├── login.html
+│   ├── admin_dashboard.html
+│   ├── guru_dashboard.html
+│   ├── manage_class.html
+│   ├── manage_user.html
+│   ├── take_attendance.html
+│   ├── reports.html
+│   └── report_detail.html
+│
+└── data/                    # Folder data (dibuat otomatis)
+    ├── users.json          # Data user
+    ├── classes.json        # Data kelas
+    └── attendance.json     # Data absensi
+```
+
+## KEAMANAN
+
+⚠️ PENTING:
+1. Ganti password default setelah instalasi
+2. Jangan share file `data/users.json` (berisi password)
+3. Untuk production, gunakan HTTPS
+4. Untuk production, gunakan database SQL (bukan JSON)
+
+## KONTAK & SUPPORT
+
+Jika mengalami kendala, silakan:
+1. Baca dokumentasi dengan teliti
+2. Cek bagian Troubleshooting
+3. Pastikan semua dependencies terinstall
+
+## LISENSI
+
+Aplikasi ini dibuat untuk keperluan edukasi dan dapat digunakan secara bebas.
+Silakan modifikasi sesuai kebutuhan.
+
+---
+Dibuat dengan ❤️ menggunakan Python Flask

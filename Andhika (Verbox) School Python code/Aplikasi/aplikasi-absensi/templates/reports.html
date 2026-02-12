@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Laporan Absensi - Aplikasi Absensi{% endblock %}
+
+{% block content %}
+<h2>Laporan Absensi</h2>
+
+<div class="card">
+    <h3>Riwayat Absensi</h3>
+    {% if attendance %}
+    <table>
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Waktu</th>
+                <th>Kelas</th>
+                <th>Guru</th>
+                <th>Hadir</th>
+                <th>Sakit</th>
+                <th>Izin</th>
+                <th>Alpa</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for att_id, att_data in attendance.items() | reverse %}
+            <tr>
+                <td>{{ att_data.date }}</td>
+                <td>{{ att_data.time }}</td>
+                <td><strong>{{ att_data.class_name }}</strong></td>
+                <td>{{ att_data.guru_name }}</td>
+                <td style="color: green;">{{ att_data.students.values() | select("equalto", "Hadir") | list | length }}</td>
+                <td style="color: orange;">{{ att_data.students.values() | select("equalto", "Sakit") | list | length }}</td>
+                <td style="color: blue;">{{ att_data.students.values() | select("equalto", "Izin") | list | length }}</td>
+                <td style="color: red;">{{ att_data.students.values() | select("equalto", "Alpa") | list | length }}</td>
+                <td>
+                    <a href="{{ url_for('report_detail', attendance_id=att_id) }}" class="btn btn-primary">
+                        📊 Detail
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Belum ada data absensi.</p>
+    {% endif %}
+</div>
+{% endblock %}

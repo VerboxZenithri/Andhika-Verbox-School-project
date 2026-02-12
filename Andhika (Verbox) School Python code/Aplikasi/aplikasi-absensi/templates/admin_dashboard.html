@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Admin - Aplikasi Absensi{% endblock %}
+
+{% block content %}
+<h2>Dashboard Admin</h2>
+<p>Selamat datang, {{ session.name }}!</p>
+
+<div class="stats">
+    <div class="stat-card">
+        <h3>{{ class_count }}</h3>
+        <p>Total Kelas</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ guru_count }}</h3>
+        <p>Total Guru</p>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Menu Admin</h3>
+    <p>Gunakan menu navigasi di atas untuk mengelola kelas, user, dan melihat laporan.</p>
+</div>
+
+{% if classes %}
+<div class="card">
+    <h3>Daftar Kelas</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nama Kelas</th>
+                <th>Jumlah Siswa</th>
+                <th>Tanggal Dibuat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for class_id, class_data in classes.items() %}
+            <tr>
+                <td>{{ class_data.name }}</td>
+                <td>{{ class_data.students|length }} siswa</td>
+                <td>{{ class_data.created_at[:10] if class_data.created_at else '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,82 @@
+╔══════════════════════════════════════════════════════════════╗
+║          APLIKASI ABSENSI SEKOLAH - QUICK START             ║
+╚══════════════════════════════════════════════════════════════╝
+
+🚀 CARA CEPAT MEMULAI:
+
+1. Extract file aplikasi-absensi.zip
+
+2. Buka Terminal/CMD di folder aplikasi
+
+3. Install dependencies:
+   pip install -r requirements.txt
+
+4. Jalankan aplikasi:
+   Windows: double-click run.bat
+   Linux/Mac: bash run.sh
+   Atau: python app.py
+
+5. Buka browser: http://localhost:5000
+
+6. Login:
+   Admin: admin / admin123
+   Guru:  guru1 / guru123
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 LANGKAH PENGGUNAAN:
+
+UNTUK ADMIN:
+1. Login → Kelola Kelas → Tambah kelas dan siswa
+2. Kelola User → Tambah guru baru
+3. Lihat laporan absensi semua kelas
+
+UNTUK GURU:
+1. Login → Pilih kelas → Isi absensi
+2. Gunakan "Aksi Cepat" untuk isi cepat
+3. Lihat laporan absensi
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ FITUR UTAMA:
+
+✓ Login aman dengan autentikasi
+✓ Role-based: Admin & Guru
+✓ Kelola kelas dan siswa
+✓ 4 status absensi: Hadir, Sakit, Izin, Alpa
+✓ Aksi cepat untuk isi semua siswa
+✓ Laporan dengan statistik
+✓ Print laporan
+✓ Responsive design
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚙️ PERSYARATAN SISTEM:
+
+• Python 3.8 atau lebih baru
+• Flask 3.0.0
+• Browser modern (Chrome, Firefox, Edge)
+• 50 MB ruang disk
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 TROUBLESHOOTING:
+
+Problem: Module 'flask' not found
+Solution: pip install Flask
+
+Problem: Port 5000 sudah digunakan
+Solution: Edit app.py, ganti port 5000 ke port lain
+
+Problem: Lupa password
+Solution: Hapus folder 'data', restart aplikasi
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOKUMENTASI LENGKAP:
+
+Lihat file INSTALL.txt dan README.md untuk panduan detail.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Selamat menggunakan! 🎉

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola User - Aplikasi Absensi{% endblock %}
+
+{% block content %}
+<h2>Kelola User</h2>
+
+<button onclick="document.getElementById('addModal').style.display='block'" class="btn btn-primary" style="margin-bottom: 20px;">
+    ➕ Tambah User Baru
+</button>
+
+<div class="card">
+    <h3>Daftar User</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Nama</th>
+                <th>Role</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for username, user_data in users.items() %}
+            <tr>
+                <td><strong>{{ username }}</strong></td>
+                <td>{{ user_data.name }}</td>
+                <td>
+                    <span style="padding: 5px 10px; border-radius: 5px; background: {% if user_data.role == 'admin' %}#667eea{% else %}#28a745{% endif %}; color: white;">
+                        {{ user_data.role|upper }}
+                    </span>
+                </td>
+                <td>
+                    {% if username != 'admin' %}
+                    <form method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus user ini?');">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="username" value="{{ username }}">
+                        <button type="submit" class="btn btn-danger">🗑️ Hapus</button>
+                    </form>
+                    {% else %}
+                    <span style="color: #999;">Admin utama</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Tambah User -->
+<div id="addModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('addModal').style.display='none'">&times;</span>
+        <h3>Tambah User Baru</h3>
+        <form method="POST">
+            <input type="hidden" name="action" value="add">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Contoh: guru2">
+            </div>
+            <div class="form-group">
+                <label for="name">Nama Lengkap</label>
+                <input type="text" id="name" name="name" required placeholder="Contoh: Ibu Siti">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="guru">Guru</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan User</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+window.onclick = function(event) {
+    var modal = document.getElementById('addModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Detail Absensi - Aplikasi Absensi{% endblock %}
+
+{% block content %}
+<h2>Detail Absensi</h2>
+
+<div class="card">
+    <h3>Informasi Absensi</h3>
+    <table style="width: auto;">
+        <tr>
+            <td><strong>Kelas:</strong></td>
+            <td>{{ data.class_name }}</td>
+        </tr>
+        <tr>
+            <td><strong>Tanggal:</strong></td>
+            <td>{{ data.date }}</td>
+        </tr>
+        <tr>
+            <td><strong>Waktu:</strong></td>
+            <td>{{ data.time }}</td>
+        </tr>
+        <tr>
+            <td><strong>Guru:</strong></td>
+            <td>{{ data.guru_name }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="card">
+    <h3>Statistik Kehadiran</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+        <div style="background: #d4edda; padding: 20px; border-radius: 8px; text-align: center;">
+            <h4 style="font-size: 32px; margin: 0; color: #155724;">{{ data.students.values() | select("equalto", "Hadir") | list | length }}</h4>
+            <p style="margin: 5px 0 0 0; color: #155724;">✅ Hadir</p>
+        </div>
+        <div style="background: #fff3cd; padding: 20px; border-radius: 8px; text-align: center;">
+            <h4 style="font-size: 32px; margin: 0; color: #856404;">{{ data.students.values() | select("equalto", "Sakit") | list | length }}</h4>
+            <p style="margin: 5px 0 0 0; color: #856404;">🤒 Sakit</p>
+        </div>
+        <div style="background: #d1ecf1; padding: 20px; border-radius: 8px; text-align: center;">
+            <h4 style="font-size: 32px; margin: 0; color: #0c5460;">{{ data.students.values() | select("equalto", "Izin") | list | length }}</h4>
+            <p style="margin: 5px 0 0 0; color: #0c5460;">📝 Izin</p>
+        </div>
+        <div style="background: #f8d7da; padding: 20px; border-radius: 8px; text-align: center;">
+            <h4 style="font-size: 32px; margin: 0; color: #721c24;">{{ data.students.values() | select("equalto", "Alpa") | list | length }}</h4>
+            <p style="margin: 5px 0 0 0; color: #721c24;">❌ Alpa</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Daftar Siswa</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Siswa</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student, status in data.students.items() %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><strong>{{ student }}</strong></td>
+                <td>
+                    <span style="padding: 5px 12px; border-radius: 5px; font-weight: 600; 
+                        {% if status == 'Hadir' %}background: #d4edda; color: #155724;
+                        {% elif status == 'Sakit' %}background: #fff3cd; color: #856404;
+                        {% elif status == 'Izin' %}background: #d1ecf1; color: #0c5460;
+                        {% else %}background: #f8d7da; color: #721c24;{% endif %}">
+                        {% if status == 'Hadir' %}✅ Hadir
+                        {% elif status == 'Sakit' %}🤒 Sakit
+                        {% elif status == 'Izin' %}📝 Izin
+                        {% else %}❌ Alpa{% endif %}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('reports') }}" class="btn btn-secondary">↩️ Kembali ke Laporan</a>
+    <button onclick="window.print()" class="btn btn-primary">🖨️ Print</button>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+@media print {
+    .header, .nav, .btn {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+    }
+    .container {
+        box-shadow: none !important;
+    }
+}
+</style>
+{% endblock %}

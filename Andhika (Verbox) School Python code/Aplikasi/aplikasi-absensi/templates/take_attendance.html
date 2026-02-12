@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Absensi {{ class_data.name }} - Aplikasi Absensi{% endblock %}
+
+{% block content %}
+<h2>Absensi Kelas: {{ class_data.name }}</h2>
+<p>Tanggal: {{ now.strftime('%d %B %Y') }}</p>
+
+<form method="POST">
+    <div class="card">
+        <h3>Daftar Siswa</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 50px;">No</th>
+                    <th>Nama Siswa</th>
+                    <th>Status Kehadiran</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in class_data.students %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><strong>{{ student }}</strong></td>
+                    <td>
+                        <select name="status_{{ student }}" required style="padding: 8px; border-radius: 5px; border: 1px solid #ced4da; min-width: 150px;">
+                            <option value="">-- Pilih --</option>
+                            <option value="Hadir">✅ Hadir</option>
+                            <option value="Sakit">🤒 Sakit</option>
+                            <option value="Izin">📝 Izin</option>
+                            <option value="Alpa">❌ Alpa</option>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <button type="submit" class="btn btn-success">💾 Simpan Absensi</button>
+        <a href="{{ url_for('guru_dashboard') }}" class="btn btn-secondary">↩️ Kembali</a>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Quick fill buttons
+document.addEventListener('DOMContentLoaded', function() {
+    // Add quick action buttons
+    const card = document.querySelector('.card');
+    const quickActions = document.createElement('div');
+    quickActions.style.marginBottom = '20px';
+    quickActions.style.padding = '15px';
+    quickActions.style.background = '#f8f9fa';
+    quickActions.style.borderRadius = '5px';
+    quickActions.innerHTML = '<strong>Aksi Cepat:</strong> ';
+    
+    const actions = [
+        { label: 'Semua Hadir', value: 'Hadir' },
+        { label: 'Semua Sakit', value: 'Sakit' },
+        { label: 'Semua Izin', value: 'Izin' },
+        { label: 'Semua Alpa', value: 'Alpa' }
+    ];
+    
+    actions.forEach(action => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn btn-secondary';
+        btn.style.marginRight = '10px';
+        btn.textContent = action.label;
+        btn.onclick = function() {
+            document.querySelectorAll('select[name^="status_"]').forEach(select => {
+                select.value = action.value;
+            });
+        };
+        quickActions.appendChild(btn);
+    });
+    
+    card.insertBefore(quickActions, card.querySelector('h3'));
+});
+</script>
+{% endblock %}

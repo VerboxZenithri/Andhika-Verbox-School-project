@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Guru - Aplikasi Absensi{% endblock %}
+
+{% block content %}
+<h2>Dashboard Guru</h2>
+<p>Selamat datang, {{ session.name }}!</p>
+
+<div class="stats">
+    <div class="stat-card">
+        <h3>{{ class_count }}</h3>
+        <p>Total Kelas Tersedia</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ today_attendance }}</h3>
+        <p>Absensi Hari Ini</p>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Pilih Kelas untuk Absensi</h3>
+    {% if classes %}
+    <table>
+        <thead>
+            <tr>
+                <th>Nama Kelas</th>
+                <th>Jumlah Siswa</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for class_id, class_data in classes.items() %}
+            <tr>
+                <td><strong>{{ class_data.name }}</strong></td>
+                <td>{{ class_data.students|length }} siswa</td>
+                <td>
+                    <a href="{{ url_for('take_attendance', class_id=class_id) }}" class="btn btn-primary">
+                        ✏️ Isi Absensi
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Belum ada kelas. Silakan hubungi admin untuk menambahkan kelas.</p>
+    {% endif %}
+</div>
+{% endblock %}

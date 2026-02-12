@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Kelas - Aplikasi Absensi{% endblock %}
+
+{% block content %}
+<h2>Kelola Kelas</h2>
+
+<button onclick="document.getElementById('addModal').style.display='block'" class="btn btn-primary" style="margin-bottom: 20px;">
+    ➕ Tambah Kelas Baru
+</button>
+
+<div class="card">
+    <h3>Daftar Kelas</h3>
+    {% if classes %}
+    <table>
+        <thead>
+            <tr>
+                <th>Nama Kelas</th>
+                <th>Jumlah Siswa</th>
+                <th>Tanggal Dibuat</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for class_id, class_data in classes.items() %}
+            <tr>
+                <td><strong>{{ class_data.name }}</strong></td>
+                <td>{{ class_data.students|length }} siswa</td>
+                <td>{{ class_data.created_at[:10] if class_data.created_at else '-' }}</td>
+                <td>
+                    <button onclick="viewStudents{{ loop.index }}()" class="btn btn-secondary" style="margin-right: 5px;">👁️ Lihat Siswa</button>
+                    <form method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus kelas ini?');">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="class_id" value="{{ class_id }}">
+                        <button type="submit" class="btn btn-danger">🗑️ Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            <script>
+            function viewStudents{{ loop.index }}() {
+                alert('Siswa di {{ class_data.name }}:\n\n{{ class_data.students|join("\n") }}');
+            }
+            </script>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Belum ada kelas. Silakan tambah kelas baru.</p>
+    {% endif %}
+</div>
+
+<!-- Modal Tambah Kelas -->
+<div id="addModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('addModal').style.display='none'">&times;</span>
+        <h3>Tambah Kelas Baru</h3>
+        <form method="POST">
+            <input type="hidden" name="action" value="add">
+            <div class="form-group">
+                <label for="class_name">Nama Kelas</label>
+                <input type="text" id="class_name" name="class_name" required placeholder="Contoh: Kelas 7A">
+            </div>
+            <div class="form-group">
+                <label for="students">Daftar Siswa (satu nama per baris)</label>
+                <textarea id="students" name="students" required placeholder="Ahmad Suryanto&#10;Budi Santoso&#10;Citra Dewi"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan Kelas</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Close modal when clicking outside
+window.onclick = function(event) {
+    var modal = document.getElementById('addModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+{% endblock %}
