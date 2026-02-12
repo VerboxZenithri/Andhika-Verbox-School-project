@@ -5,8 +5,9 @@ from datetime import datetime
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-FILE_USER="data_user.json"
-FILE_KOPI="data_kopi.json"
+BASE_DIR=os.path.dirname(os.path.abspath(__file__))
+FILE_USER=os.path.join(BASE_DIR,"data_user.json")
+FILE_KOPI=os.path.join(BASE_DIR,"data_kopi.json")
 
 class Coffee:
     def __init__(self,nama,harga,rasa,texture,warna,kekentalan,stok):
@@ -173,7 +174,15 @@ def menu():
     nama_user=input("Masukkan nama Anda: ")
     user=muat_user(nama_user)
     daftar_kopi=muat_kopi()
-    print(f"\nSelamat datang kembali, {user.nama}!" if os.path.exists(FILE_USER) and nama_user in json.load(open(FILE_USER)) else f"\nPengguna baru terdaftar: {user.nama}!")
+    if os.path.exists(FILE_USER):
+        with open(FILE_USER,'r') as f:
+            data_users=json.load(f)
+            if nama_user in data_users:
+                print(f"\nSelamat datang kembali, {user.nama}!")
+            else:
+                print(f"\nPengguna baru terdaftar: {user.nama}!")
+    else:
+        print(f"\nPengguna baru terdaftar: {user.nama}!")
     input("Tekan Enter untuk lanjut...")
     while True:
         clear()
