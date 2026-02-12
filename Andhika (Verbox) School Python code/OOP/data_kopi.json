@@ -1,0 +1,56 @@
+[
+  {
+    "nama": "Cappucino",
+    "harga": 12000,
+    "rasa": "Nikmat",
+    "texture": "Sedang",
+    "warna": "Hitam Kecoklatan",
+    "kekentalan": "Cair",
+    "stok": 50
+  },
+  {
+    "nama": "Latte Art",
+    "harga": 20000,
+    "rasa": "Manis",
+    "texture": "Halus",
+    "warna": "Coklat Keputihan",
+    "kekentalan": "Cair",
+    "stok": 210
+  },
+  {
+    "nama": "Dirty Espresso",
+    "harga": 8000,
+    "rasa": "Pahit",
+    "texture": "Kasar",
+    "warna": "Hytam Legam",
+    "kekentalan": "Kental",
+    "stok": 37
+  },
+  {
+    "nama": "Kopi STMJ",
+    "harga": 10000,
+    "rasa": "Nikmat",
+    "texture": "halus",
+    "warna": "Putih Kecoklatan",
+    "kekentalan": "Kental",
+    "stok": 124
+  },
+  {
+    "nama": "Civet Coffee (luwak)",
+    "harga": 45000,
+    "rasa": "Mantab",
+    "texture": "Halus",
+    "warna": "Coklat",
+    "kekentalan": "Kental",
+    "stok": 15
+  },
+  {
+    "nama": "Americano",
+    "harga": 9000,
+    "rasa": "Lumayan pahit",
+    "texture": "Sedang",
+    "warna": "Coklat kehitaman",
+    "kekentalan": "Sedang",
+    "stok": 75
+  }
+]
