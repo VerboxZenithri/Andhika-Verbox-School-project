@@ -17,19 +17,14 @@ Aplikasi absensi berbasis web yang dibangun dengan Flask sesuai dengan flowchart
 - Lihat riwayat absensi yang telah diinput
 - Dashboard dengan statistik absensi hari ini
 
-## Instalasi
+##Buka Aplikasi
 
-1. Install dependencies:
+1. Jalankan aplikasi:
 ```bash
-pip install -r requirements.txt --break-system-packages
+run.bat
 ```
 
-2. Jalankan aplikasi:
-```bash
-python app.py
-```
-
-3. Buka browser dan akses:
+2. Buka browser dan akses:
 ```
 http://localhost:5000
 ```
