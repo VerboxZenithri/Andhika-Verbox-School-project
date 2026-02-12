@@ -1,0 +1,23 @@
+{
+  "Andhika": {
+    "nama": "Andhika",
+    "saldo": 1000000,
+    "riwayat": [
+      {
+        "waktu": "2026-02-11 23:52:52",
+        "tipe": "Pembelian",
+        "item": "Kopi STMJ",
+        "jumlah": 11,
+        "harga": 10000,
+        "total": 110000,
+        "saldo_akhir": 890000
+      },
+      {
+        "waktu": "2026-02-11 23:53:21",
+        "tipe": "Top Up",
+        "jumlah": 110000,
+        "saldo_akhir": 1000000
+      }
+    ]
+  }
+}
