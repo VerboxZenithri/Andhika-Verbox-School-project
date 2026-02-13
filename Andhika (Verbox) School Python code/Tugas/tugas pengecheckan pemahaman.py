@@ -1,14 +1,13 @@
-""" 
-Petunjuk Aturan:
-Aturan 1: Angka habis dibagi oleh jumlah jari pada satu tangan tanpa ibu jari (yaitu 4).
-Aturan 2: Angka merupakan kelipatan dari jumlah sisi bentuk bangun datar yang terbentuk
-       dari dua segitiga sama sisi yang disatukan membentuk belah ketupat.
-       - Segitiga = 3 sisi.
-       - Dua segitiga = 6 sisi.
-       - Belah ketupat = 4 sisi.
-       - Karena soal sengaja ambigu, kita harus memilih salah satu: 6 (dari "dua segitiga") atau 4 (dari "membentuk belah ketupat").
-       - Asumsi yang logis untuk kelipatan adalah mengambil **jumlah sisi belah ketupat**, yaitu **4**.
-       - Catatan: Jika Aturan 2 yang dimaksud adalah kelipatan 6, ganti 'kelipatan_2 = 4' menjadi 'kelipatan_2 = 6'.
+""" Petunjuk Aturan:
+    Aturan 1: Angka habis dibagi oleh jumlah jari pada satu tangan tanpa ibu jari (yaitu 4).
+    Aturan 2: Angka merupakan kelipatan dari jumlah sisi bentuk bangun datar yang terbentuk
+           dari dua segitiga sama sisi yang disatukan membentuk belah ketupat.
+           - Segitiga = 3 sisi.
+           - Dua segitiga = 6 sisi.
+           - Belah ketupat = 4 sisi.
+           - Karena soal sengaja ambigu, kita harus memilih salah satu: 6 (dari "dua segitiga") atau 4 (dari "membentuk belah ketupat").
+           - Asumsi yang logis untuk kelipatan adalah mengambil **jumlah sisi belah ketupat**, yaitu **4**.
+           - Catatan: Jika Aturan 2 yang dimaksud adalah kelipatan 6, ganti 'kelipatan_2 = 4' menjadi 'kelipatan_2 = 6'.
 """
 # Penentuan Kelipatan
 kelipatan_1 = 4  # Aturan 1: Jumlah jari satu tangan tanpa ibu jari (5 - 1 = 4)
