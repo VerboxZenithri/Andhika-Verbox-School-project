@@ -126,3 +126,6 @@
 [2026-02-08 22:12:39] D.E.V. Clan menjual 656 unit Adrenaline Syringe total: $182,566,112
 [2026-02-08 22:12:59] Slum Snake menjual 177 unit M16A4 total: $800,158,590
 [2026-02-08 23:53:04] Vault_Breakers membeli 901 unit Bandage total: $94,605,000
+[2026-02-13 15:44:35] System_Phantoms menjual 792 unit Combat Knife total: $48,157,560
+[2026-02-13 15:44:55] The Dark Army membeli 1,142 unit Bandage total: $119,910,000
+[2026-02-13 15:45:15] Dusk_Devils menjual 848 unit BMG-50 total: $41,340,000,000
