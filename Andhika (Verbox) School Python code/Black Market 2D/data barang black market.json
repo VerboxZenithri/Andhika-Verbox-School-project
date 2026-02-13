@@ -6,22 +6,22 @@
     },
     {
         "nama": "Colt 1911",
-        "stok": 33,
+        "stok": 402,
         "harga": 1050000
     },
     {
         "nama": "AK-47",
-        "stok": 3,
+        "stok": 199,
         "harga": 5263025
     },
     {
         "nama": "BMG-50",
-        "stok": 146,
+        "stok": 706,
         "harga": 97500000
     },
     {
         "nama": "Glock",
-        "stok": 164,
+        "stok": 12,
         "harga": 297431
     },
     {
@@ -56,7 +56,7 @@
     },
     {
         "nama": "Dragunov SVD",
-        "stok": 270,
+        "stok": 28,
         "harga": 22000000
     },
     {
@@ -76,12 +76,12 @@
     },
     {
         "nama": "Claymore Mine",
-        "stok": 407,
+        "stok": 50,
         "harga": 18900000
     },
     {
         "nama": "Smoke Grenade",
-        "stok": 268,
+        "stok": 141,
         "harga": 125000
     },
     {
@@ -91,7 +91,7 @@
     },
     {
         "nama": "HE Granade",
-        "stok": 495,
+        "stok": 173,
         "harga": 352000
     },
     {
@@ -116,7 +116,7 @@
     },
     {
         "nama": "Night Vision Goggles",
-        "stok": 333,
+        "stok": 414,
         "harga": 45238366
     },
     {
@@ -136,12 +136,12 @@
     },
     {
         "nama": "Signal Jammer",
-        "stok": 81,
+        "stok": 199,
         "harga": 22000000
     },
     {
         "nama": "Hacking Laptop",
-        "stok": 433,
+        "stok": 55,
         "harga": 14307500
     },
     {
@@ -181,22 +181,22 @@
     },
     {
         "nama": "Bandage",
-        "stok": 2323,
+        "stok": 263,
         "harga": 105000
     },
     {
         "nama": "Adrenaline Syringe",
-        "stok": 971,
+        "stok": 28,
         "harga": 556605
     },
     {
         "nama": "Katana",
-        "stok": 1101,
+        "stok": 208,
         "harga": 1267200
     },
     {
         "nama": "Long Sword",
-        "stok": 5315,
+        "stok": 627,
         "harga": 450000
     },
     {
@@ -206,7 +206,7 @@
     },
     {
         "nama": "Combat Knife",
-        "stok": 1635,
+        "stok": 931,
         "harga": 121611
     },
     {
@@ -231,12 +231,12 @@
     },
     {
         "nama": "Minigun M134",
-        "stok": 5,
+        "stok": 1225,
         "harga": 150000000
     },
     {
         "nama": "Flamethrower",
-        "stok": 12,
+        "stok": 1009,
         "harga": 18500000
     },
     {
@@ -306,7 +306,7 @@
     },
     {
         "nama": "Hard Drive Eraser",
-        "stok": 15,
+        "stok": 637,
         "harga": 5500000
     },
     {
@@ -361,7 +361,7 @@
     },
     {
         "nama": "Brass Knuckles",
-        "stok": 250,
+        "stok": 23,
         "harga": 85000
     },
     {
@@ -386,7 +386,7 @@
     },
     {
         "nama": "Satellite Phone",
-        "stok": 40,
+        "stok": 1235,
         "harga": 8500000
     },
     {
@@ -416,7 +416,7 @@
     },
     {
         "nama": "Money Counterfeit Kit",
-        "stok": 10,
+        "stok": 723,
         "harga": 65000000
     },
     {
@@ -426,7 +426,7 @@
     },
     {
         "nama": "Zip Ties (100pcs)",
-        "stok": 500,
+        "stok": 1515,
         "harga": 50000
     },
     {
@@ -451,7 +451,7 @@
     },
     {
         "nama": "Riot Gear Set",
-        "stok": 25,
+        "stok": 342,
         "harga": 15500000
     },
     {
@@ -481,12 +481,12 @@
     },
     {
         "nama": "Tear Gas Canister",
-        "stok": 200,
+        "stok": 1278,
         "harga": 300000
     },
     {
         "nama": "Wire Cutter",
-        "stok": 150,
+        "stok": 1356,
         "harga": 125000
     },
     {

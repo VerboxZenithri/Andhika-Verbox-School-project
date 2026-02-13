@@ -13,7 +13,7 @@ pygame.init()
 # Konstanta Layar
 LEBAR = 1280
 TINGGI = 720
-FPS = 60
+FPS = 120
 
 # Warna
 HITAM = (0, 0, 0)
