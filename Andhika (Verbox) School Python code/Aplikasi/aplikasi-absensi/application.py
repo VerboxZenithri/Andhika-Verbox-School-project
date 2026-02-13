@@ -249,8 +249,8 @@ def reports():
     if 'username' not in session:
         return redirect(url_for('login'))
     
-    attendance = load_json(ATTENDANCE_FILE)
-    classes = load_json(CLASSES_FILE)
+    attendance=load_json(ATTENDANCE_FILE)
+    classes=load_json(CLASSES_FILE)
     
     # Filter by role
     if session['role'] == 'guru':
